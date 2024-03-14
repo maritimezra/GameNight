@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "strawberry_jwt_auth",
     "apps.accounts",
+    "apps.truthordare",
 ]
 
 MIDDLEWARE = [

@@ -5,6 +5,8 @@ from strawberry_jwt_auth.views import strawberry_auth_view
 
 from apps.accounts.schema import schema
 
+from apps.truthordare.schema import schema
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     # path("graphql", GraphQLView.as_view(schema=schema)),
