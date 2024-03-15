@@ -3,6 +3,10 @@ import random
 from apps.accounts.models import User
 
 
+class GameOption(models.Model):
+    pass
+
+
 class Lobby(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=256)
@@ -28,6 +32,9 @@ class Lobby(models.Model):
         random.shuffle(player_names)
         return player_names
 
+    def get_players(self):
+        return Player.objects.filter(lobby=self)
+
 
 class Player(models.Model):
     name = models.CharField(max_length=100)
@@ -35,7 +42,3 @@ class Player(models.Model):
 
     def __str__(self):
         return self.name
-
-    def get_players(lobby):
-        players = Player.objects.filter(lobby=lobby)
-        return players

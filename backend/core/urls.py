@@ -3,7 +3,7 @@ from django.urls import path
 from strawberry.django.views import GraphQLView
 from strawberry_jwt_auth.views import strawberry_auth_view
 
-from apps.accounts.schema import schema
+# from apps.accounts.schema import schema
 
 from apps.truthordare.schema import schema
 

@@ -8,7 +8,7 @@ from apps.accounts.types import UserType
 @strawberry_django.type(models.Lobby)
 class LobbyType:
     id: auto
-    creator: auto
+    creator: UserType
     name: str
     created_at: str
 
@@ -17,4 +17,4 @@ class LobbyType:
 class PlayerType:
     id: auto
     name: str
-    lobby: auto
+    lobby: LobbyType
