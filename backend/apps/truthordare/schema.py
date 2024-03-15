@@ -2,12 +2,18 @@ import strawberry
 from typing import List
 from strawberry_django.optimizer import DjangoOptimizerExtension
 
+from apps.accounts.types import UserType
 from .types import LobbyType, PlayerType
 from .models import *
 
 
 @strawberry.type
 class Query:
+    @strawberry.field
+    def get_creator(self, lobby_id: int) -> UserType:
+        lobby = Lobby.objects.get(id=lobby_id)
+        return lobby.creator
+
     @strawberry.field
     def get_lobbies(self) -> List[LobbyType]:
         return list(Lobby.objects.all())
