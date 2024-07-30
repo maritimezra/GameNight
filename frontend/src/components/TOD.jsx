@@ -87,7 +87,7 @@ const Tod = () => {
             throw new Error('Invalid level');
         }
         break;
-      case 'GameNight':
+      case 'Party':
         switch (level) {
           case 'Mild':
             questions = type === 'truth' ? partyMildTruthQuestions.Questions : partyMildDareQuestions.Questions;
