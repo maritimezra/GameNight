@@ -1,0 +1,117 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #4e54c8;
+  
+}
+
+.container {
+  width: auto;
+  max-width: 100%;
+  margin: auto;
+  padding: 100px;
+  margin-top: 80px;
+  font-family: 'Lato', sans-serif;
+  position: inherit;
+  align-content: center;
+}
+
+.current-turn {
+  font-size: 24px;
+  font-weight: bold;
+  
+  margin-bottom: 100px;
+  text-align: center;
+   text-transform:inherit;
+  background-image: linear-gradient(
+    -225deg,
+    #06021396 0%,
+    #4e54c8ad 29%,
+    #ffffff 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 10s linear infinite;
+  
+      
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.question {
+  font-size: 18px;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f0f0f0e3;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.group-button {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Add this line to add 20px gap between buttons */
+  margin-bottom: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4e54c8;
+  /* background-image: radial-gradient(to top, #FCCF31, #f07373); */
+  background-image: radial-gradient(farthest-corner at 50% 50%, #FCCF31, #f07373);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #4e54c8ad;
+  
+}
+
+.button:active {
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) inset;
+}
+
+.top-right-button {
+  position: absolute;
+  top: 150px;
+  right: 20px;
+}
+
+.bottom-right-button {
+  position: absolute;
+  bottom: 150px;
+  right: 20px;
+}
+
+.button-end-game {
+  background-color: red;
+  font-weight: bold;
+  color: white;
+  border-color: red;
+}
+
+.button-end-game:hover {
+  background-color: #ff4d4d;
+  border-color: #ff4d4d;
+}

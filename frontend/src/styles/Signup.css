@@ -1,0 +1,74 @@
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000; /* Ensure modal is on top of other content */
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2); /* Drop shadow for depth */
+    width: 300px; /* Adjust width as needed */
+  }
+  
+  .modal-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .modal-content input[type="email"],
+  .modal-content input[type="text"],
+  .modal-content select,
+  .modal-content input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .modal-content button {
+    background-color: #4e54c8;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  .modal-content button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .modal-content select {
+    padding: 8px;
+  }
+  
+  .modal-content p {
+    font-size: 0.875rem;
+  }
+  
+  .modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #aaa;
+  }
+  
+  .modal-content .close:hover {
+    color: #666;
+  }
+  
