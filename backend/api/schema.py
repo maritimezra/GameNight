@@ -1,6 +1,6 @@
 import strawberry
 from apps.accounts.schema import Query as AccountsQuery, Mutation as AccountsMutation
-from apps.tod.schema import (
+from apps.lobbies.schema import (
     Query as TODQuery,
     Mutation as TODMutation,
 )
