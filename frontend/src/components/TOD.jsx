@@ -9,12 +9,12 @@ import couplesModTruthQuestions from '../questions/tod/couples/moderate/truth.js
 import couplesModDareQuestions from '../questions/tod/couples/moderate/dare.json';
 import couplesWildTruthQuestions from '../questions/tod/couples/wild/truth.json';
 import couplesWildDareQuestions from '../questions/tod/couples/wild/dare.json';
-import gamenightMildTruthQuestions from '../questions/tod/gamenight/mild/truth.json';
-import gamenightMildDareQuestions from '../questions/tod/gamenight/mild/dare.json';
-import gamenightModTruthQuestions from '../questions/tod/gamenight/moderate/truth.json';
-import gamenightModDareQuestions from '../questions/tod/gamenight/moderate/dare.json';
-import gamenightWildTruthQuestions from '../questions/tod/gamenight/wild/truth.json';
-import gamenightWildDareQuestions from '../questions/tod/gamenight/wild/dare.json';
+import partyMildTruthQuestions from '../questions/tod/party/mild/truth.json';
+import partyMildDareQuestions from '../questions/tod/party/mild/dare.json';
+import partyModTruthQuestions from '../questions/tod/party/moderate/truth.json';
+import partyModDareQuestions from '../questions/tod/party/moderate/dare.json';
+import partyWildTruthQuestions from '../questions/tod/party/wild/truth.json';
+import partyWildDareQuestions from '../questions/tod/party/wild/dare.json';
 import teensMildTruthQuestions from '../questions/tod/teens/mild/truth.json';
 import teensMildDareQuestions from '../questions/tod/teens/mild/dare.json';
 import teensModTruthQuestions from '../questions/tod/teens/moderate/truth.json';
@@ -90,13 +90,13 @@ const Tod = () => {
       case 'GameNight':
         switch (level) {
           case 'Mild':
-            questions = type === 'truth' ? gamenightMildTruthQuestions.Questions : gamenightMildDareQuestions.Questions;
+            questions = type === 'truth' ? partyMildTruthQuestions.Questions : partyMildDareQuestions.Questions;
             break;
           case 'Moderate':
-            questions = type === 'truth' ? gamenightModTruthQuestions.Questions : gamenightModDareQuestions.Questions;
+            questions = type === 'truth' ? partyModTruthQuestions.Questions : partyModDareQuestions.Questions;
             break;
           case 'Wild':
-            questions = type === 'truth' ? gamenightWildTruthQuestions.Questions : gamenightWildDareQuestions.Questions;
+            questions = type === 'truth' ? partyWildTruthQuestions.Questions : partyWildDareQuestions.Questions;
             break;
           default:
             throw new Error('Invalid level');
