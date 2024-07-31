@@ -12,7 +12,7 @@ class Level(models.TextChoices):
 
 
 class Category(models.TextChoices):
-    Party = "G"
+    Party = "P"
     Couples = "C"
     Teens = "T"
     Work = "W"
@@ -33,7 +33,7 @@ class Player(models.Model):
 
 
 class Lobby(models.Model):
-    game = models.CharField(max_length=4, choices=Game)
+    game = models.CharField(max_length=4, choices=Game, blank=True)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     player = models.ManyToManyField(Player, related_name="lobbies", blank=True)
     name = models.CharField(max_length=256)
