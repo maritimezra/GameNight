@@ -2,8 +2,10 @@ import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
 import Home from './components/Home';
-import PrivateRoute from './components/PrivateRoute';
-import Tod from './components/TOD';
+import TODHome from './components/TOD';
+import SuperlativeHome from './components/Superlative';
+import TodGame from './components/PlayTOD';
+import SuperlativeGame from './components/PlaySuperlative';
 import Layout from './components/Layout';
 
 
@@ -33,8 +35,11 @@ const App = () => {
       <Router>
         <Layout>
           <Routes>
-            <Route path="/" element={<PrivateRoute element={Home} />} />
-            <Route path="/play-game" element={<PrivateRoute element={Tod} />} />
+            <Route path="/"  element={<Home />} />
+            <Route path="/truth-or-dare" element={<TODHome />} />
+            <Route path="/superlative" element={<SuperlativeHome />} />
+            <Route path='play-tod' element={<TodGame />} />
+            <Route path='play-superlative' element={< SuperlativeGame />} />
           </Routes>
           </Layout>
       </Router>
