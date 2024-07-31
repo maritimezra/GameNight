@@ -1,155 +1,127 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
+import { useLocation } from 'react-router-dom';
+import CreateLobby from './CreateLobby';
+import LobbyDetails from './LobbyDetails';
+import '../styles/GameHome.css'
 
-import couplesMildQuestions from './questions/tod/couples/mild.json';
-import couplesModQuestions from './questions/tod/couples/mod.json';
-import couplesWildQuestions from './questions/tod/couples/wild.json';
-import partyMildQuestions from './questions/tod/party/mild.json';
-import partyModQuestions from './questions/tod/party/mod.json';
-import partyWildQuestions from './questions/tod/party/wild.json';
-import teensMildQuestions from './questions/tod/teens/mild.json';
-import teensModQuestions from './questions/tod/teens/mod.json';
-import teensWildQuestions from './questions/tod/teens/wild.json';
-import workMildQuestions from './questions/tod/work/mild.json';
-import workModQuestions from './questions/tod/work/mod.json';
-import workWildQuestions from './questions/tod/work/wild.json';
-
-
-const GET_LOBBY = gql`
-  query GetLobby($lobbyId: Int!) {
-    getLobby(lobbyId: $lobbyId) {
+const GET_LOBBIES = gql`
+  query GetLobbies {
+    getLobbies {
       id
+      name
       level
       category
     }
   }
 `;
 
+const GET_USERNAME = gql`
+  query GetUsername {
+    getUsername {
+      username
+    }
+  }
+`;
 
-const Superlative = () => {
+const SuperlativeHome = () => {
+
+
   const location = useLocation();
-  const navigate = useNavigate();
+  const [isCreateLobbyOpen, setCreateLobbyOpen] = useState(false);
+  const [isLobbyDetailsOpen, setLobbyDetailsOpen] = useState(false);
+  const [selectedLobbyId, setSelectedLobbyId] = useState(null);
 
-  const searchParams = new URLSearchParams(location.search);
-  const lobbyId = searchParams.get('id');
-
-  const { loading: loadingLobby, error: errorLobby, data: dataLobby } = useQuery(GET_LOBBY, {
-    variables: { lobbyId: parseInt(lobbyId) },
+  const { loading: usernameLoading, error: usernameError, data: usernameData } = useQuery(GET_USERNAME, {
+    fetchPolicy: 'network-only'
+  });
+  const { loading, error, data, refetch } = useQuery(GET_LOBBIES, {
+    fetchPolicy: 'network-only'
   });
 
-  const [question, setQuestion] = useState('');
+  const handleCreateNew = () => {
+    setCreateLobbyOpen(true);
+  };
 
+  const closeCreateLobby = () => {
+    setCreateLobbyOpen(false);
+  };
+
+  const handleLobbyClick = (lobbyId) => {
+    setSelectedLobbyId(parseInt(lobbyId));
+    setLobbyDetailsOpen(true);
+  };
+
+  const closeLobbyDetails = () => {
+    setLobbyDetailsOpen(false);
+    setSelectedLobbyId(null);
+  };
+
+  const handleLobbyCreated = (lobbyId) => {
+    setSelectedLobbyId(lobbyId);
+    setLobbyDetailsOpen(true);
+  };
 
   useEffect(() => {
-    if (dataLobby) {
-      const { level, category } = dataLobby.getLobby;
-      fetchQuestion( category, level);
-    }
-  }, [dataLobby]);
+    refetch();
+  }, [location.key, refetch]);
 
+  if (loading || usernameLoading) return <p>Loading...</p>;
+  if (error || usernameError) return <p>{error ? error.message : usernameError.message}</p>;
 
+  const lobbies = data.getLobbies;
+  const username = usernameData?.getUsername?.username;
 
-  const fetchQuestion = ( category, level) => {
-    let questions;
-
-    switch (category) {
-      case 'Couples':
-        switch (level) {
-          case 'Mild':
-            questions = couplesMildQuestions.Questions;
-            break;
-          case 'Moderate':
-            questions = couplesModQuestions.Questions;
-            break;
-          case 'Wild':
-            questions = couplesWildQuestions.Questions;
-            break;
-          default:
-            throw new Error('Invalid level');
-        }
-        break;
-      case 'Party':
-        switch (level) {
-          case 'Mild':
-            questions = partyMildQuestions.Questions;
-            break;
-          case 'Moderate':
-            questions = partyModQuestions.Questions;
-            break;
-          case 'Wild':
-            questions = partyWildQuestions.Questions;
-            break;
-          default:
-            throw new Error('Invalid level');
-        }
-        break;
-      case 'Teens':
-        switch (level) {
-          case 'Mild':
-            questions = teensMildQuestions.Questions;
-            break;
-          case 'Moderate':
-            questions = teensModQuestions.Questions;
-            break;
-          case 'Wild':
-            questions = teensWildQuestions.Questions;
-            break;
-          default:
-            throw new Error('Invalid level');
-        }
-        break;
-      case 'Work':
-        switch (level) {
-          case 'Mild':
-            questions = workMildQuestions.Questions;
-            break;
-          case 'Moderate':
-            questions = workModQuestions.Questions;
-            break;
-          case 'Wild':
-            questions = workWildQuestions.Questions;
-            break;
-          default:
-            throw new Error('Invalid level');
-            }
-            break;
-      default:
-        throw new Error('Invalid category');
-    }
-
-    const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-    setQuestion(randomQuestion);
-  };
-
-
-
-  const handleNextQuestion = () => {
-    if (dataLobby) {
-      const { level, category } = dataLobby.getLobby;
-      fetchQuestion( category, level);
-    }
-  };
-
-
-  const handleEndGame = () => {
-    navigate('/')
-  }
-
-  if (loadingLobby ) return <p>Loading...</p>;
-  if (errorLobby ) return <p>Error: { errorLobby.message }</p>;
 
   return (
-    <div>
-      <h1>Superlative</h1>
-      <h2>Question: </h2>
-      <div>
-        <p>{question}</p>
+    <div className="home">
+      <div className="area">
+        <ul className="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
       </div>
-      <button onClick={handleNextQuestion}>Next Question</button>
-      <button onClick={handleEndGame}>End Game</button>
+
+      <div className="username">
+        <h2><span className="scribble-underline">Hi, {username}</span></h2>
+      </div>
+      <div className="lobbies">
+        <h2>Your Lobbies</h2>
+        <div className="lobbylist">
+        <ul>
+          {lobbies.map((lobby) => (
+            <ul key={lobby.id} onClick={() => handleLobbyClick(lobby.id)} style={{ cursor: 'pointer' }}>
+              <h3>{lobby.name}</h3>
+            </ul>
+          ))}
+        </ul>
+        </div>
+        <div className="createnew">
+         <button onClick={handleCreateNew}>Create New</button>
+        </div>
+      </div>
+      <CreateLobby
+        isOpen={isCreateLobbyOpen}
+        onClose={closeCreateLobby}
+        onLobbyCreated={handleLobbyCreated}
+      />
+      {selectedLobbyId && (
+        <LobbyDetails
+          isOpen={isLobbyDetailsOpen}
+          onClose={closeLobbyDetails}
+          lobbyId={selectedLobbyId ? parseInt(selectedLobbyId) : null}
+        />
+      )}
     </div>
   );
 };
 
-export default Superlative;
+export default SuperlativeHome;

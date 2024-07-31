@@ -1,0 +1,298 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #de00e6d0;
+}
+ .home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 100%;
+  }
+  
+  .username {
+    padding-top: 50px;
+    margin-bottom: 20px;
+    font-size: 1 rem;
+    font-family: 'Satisfy', cursive;
+    color: #ffffff;
+    z-index: 1;
+  }
+
+  
+  
+  .lobbies {
+    width: 100%;
+    max-width: 400px;
+    background-color: #f0f0f0d0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    z-index: 2;
+  }
+  
+  .lobbies h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #333;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500; /* Use a lighter weight for a thinner appearance */
+    border-bottom: 1px solid #680381; /* Thin underline using border */
+    padding-bottom: 5px; /* Adjust padding as needed */
+    margin-top: 1px;
+    
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul > li {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  ul > li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  ul > li > h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  button {
+    background-color: #4e54c8;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #4e54c8c4;
+  }
+  
+  .area {
+    background: -webkit-linear-gradient(to left, #8f94fb, #161da3);
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+.circles{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.circles li {
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 50px;
+  height: 80px;
+  background-size: 100% 100%;
+  animation: animate 25s ease-in-out infinite;
+  bottom: -150px;
+  opacity: 100%;
+  border-radius: 5x;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.circles li:nth-child(1) {
+  left: 90%;
+  animation-delay: 7s;
+  animation-duration: 15s;
+  background-image: url('../images/1.png');
+}
+
+.circles li:nth-child(2) {
+  left: 80%;
+  animation-delay: 12s;
+  animation-duration: 20s;
+  transform: translateY(0) rotate(45deg);
+  background-image: url('../images/2.png');
+}
+
+.circles li:nth-child(3) {
+  left: 70%;
+  animation-delay: 5s;
+  animation-duration: 10s;
+  transform: translateY(0) rotate(-45deg);
+  background-image: url('../images/3.png');
+}
+
+.circles li:nth-child(4) {
+  left: 60%;
+  animation-delay: 18s;
+  animation-duration: 25s;
+  background-image: url('../images/4.png');
+}
+
+.circles li:nth-child(5) {
+  left: 50%;
+  animation-delay: 9s;
+  animation-duration: 17s;
+  background-image: url('../images/5.png');
+}
+
+.circles li:nth-child(6) {
+  left: 40%;
+  animation-delay: 14s;
+  animation-duration: 22s;
+  background-image: url('../images/6.png');
+}
+
+.circles li:nth-child(7) {
+  left: 30%;
+  animation-delay: 6s;
+  animation-duration: 12s;
+  background-image: url('../images/7.png');
+}
+
+.circles li:nth-child(8) {
+  left: 20%;
+  animation-delay: 21s;
+  animation-duration: 28s;
+  background-image: url('../images/8.png');
+}
+
+.circles li:nth-child(9) {
+  left: 10%;
+  animation-delay: 11s;
+  animation-duration: 19s;
+  background-image: url('../images/9.png');
+}
+
+.circles li:nth-child(10) {
+  left: 15%;
+  animation-delay: 16s;
+  animation-duration: 24s;
+  background-image: url('../images/10.png');
+}
+
+.circles li:nth-child(11) {
+  left: 30%;
+  animation-delay: 8s;
+  animation-duration: 16s;
+  background-image: url('../images/11.png');
+}
+
+.circles li:nth-child(12) {
+  left: 45%;
+  animation-delay: 13s;
+  animation-duration: 21s;
+  background-image: url('../images/12.png');
+}
+
+.circles li:nth-child(13) {
+  left: 60%;
+  animation-delay: 10s;
+  animation-duration: 18s;
+  background-image: url('../images/13.png');
+}
+
+.circles li:nth-child(14) {
+  left: 75%;
+  animation-delay: 19s;
+  animation-duration: 26s;
+  background-image: url('../images/14.png');
+}
+
+.circles li:nth-child(15) {
+  left: 90%;
+  animation-delay: 15s;
+  animation-duration: 23s;
+  background-image: url('../images/15.png');
+}
+
+.circles li:nth-child(16) {
+  left: 85%;
+  animation-delay: 22s;
+  animation-duration: 29s;
+  background-image: url('../images/16.png');
+}
+
+.circles li:nth-child(17) {
+  left: 75%;
+  animation-delay: 9s;
+  animation-duration: 17s;
+  background-image: url('../images/17.png');
+}
+
+.circles li:nth-child(18) {
+  left: 65%;
+  animation-delay: 17s;
+  animation-duration: 25s;
+  background-image: url('../images/18.png');
+}
+
+.circles li:nth-child(19) {
+  left: 55%;
+  animation-delay: 12s;
+  animation-duration: 20s;
+  background-image: url('../images/19.png');
+}
+
+.circles li:nth-child(20) {
+  left: 45%;
+  animation-delay: 20s;
+  animation-duration: 27s;
+  background-image: url('../images/20.png');
+}
+
+.circles li:nth-child(21) {
+  left: 35%;
+  animation-delay: 14s;
+  animation-duration: 22s;
+  background-image: url('../images/21.png');
+}
+
+.circles li:nth-child(22) {
+  right: 25%;
+  animation-delay: 25s;
+  animation-duration: 30s;
+  background-image: url('../images/22.png');
+}
+
+
+
+
+
+
+
+
+/* ... */
+
+@keyframes animate {
+  0% {   /* This defines the initial state of the animation.*/
+    transform: translateY(0) rotate(0deg); /*  The element starts at its original position on the Y-axis and The element starts with no rotation.*/
+    opacity: 1;  /* The element is fully opaque.*/
+  }
+  50% {         /* This defines the state of the animation at the halfway point*/
+    transform: translateY(-500px) rotate(360deg);  /* This defines the state of the animation at the halfway point*/
+    opacity: 0.5;   /* This defines the state of the animation at the halfway point*/
+  }
+  100% {      /* This defines the state of the animation at the halfway point*/
+    transform: translateY(-1000px) rotate(720deg);    /* This defines the state of the animation at the halfway point*/
+    opacity: 0;            /* This defines the state of the animation at the halfway point*/
+  }  
+}
