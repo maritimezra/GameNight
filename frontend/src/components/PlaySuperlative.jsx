@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
+import '../styles/Game.css'
 
 import couplesMildQuestions from '../questions/superlative/couples/mild.json';
 import couplesModQuestions from '../questions/superlative/couples/mod.json';
@@ -140,14 +141,19 @@ const SuperlativeGame = () => {
   if (errorLobby ) return <p>Error: { errorLobby.message }</p>;
 
   return (
-    <div>
-      <h1>Superlative</h1>
-      <h2>Question: </h2>
-      <div>
-        <p>{question}</p>
+    <div className="main-container">
+      <div className="container">
+        <h2 className="current-turn">Current Question: </h2>
+        <div className="question">
+          <p>{question}</p>
+        </div>
+        <div className="top-right-button">
+          <button onClick={handleNextQuestion}>Next Question</button>
+        </div>
+        <div className="bottom-right-button">
+          <button onClick={handleEndGame}>End Game</button>
+        </div>
       </div>
-      <button onClick={handleNextQuestion}>Next Question</button>
-      <button onClick={handleEndGame}>End Game</button>
     </div>
   );
 };

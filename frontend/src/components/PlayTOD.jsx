@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
-import '../styles/TOD.css';
+import '../styles/Game.css';
 
 import couplesMildTruthQuestions from '../questions/tod/couples/mild/truth.json';
 import couplesMildDareQuestions from '../questions/tod/couples/mild/dare.json';
