@@ -6,8 +6,8 @@ import LobbyDetails from './LobbyDetails';
 import '../styles/GameHome.css'
 
 const GET_LOBBIES = gql`
-  query GetLobbies {
-    getLobbies {
+  query GetTodLobbies {
+    getTodLobbies {
       id
       name
       level
@@ -69,7 +69,7 @@ const TODHome = () => {
   if (loading || usernameLoading) return <p>Loading...</p>;
   if (error || usernameError) return <p>{error ? error.message : usernameError.message}</p>;
 
-  const lobbies = data.getLobbies;
+  const lobbies = data.getTodLobbies;
   const username = usernameData?.getUsername?.username;
 
 
