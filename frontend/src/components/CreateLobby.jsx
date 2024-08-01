@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import '../styles/CreateLobby.css';
 
 const CREATE_LOBBY = gql`
-  mutation CreateLobby($name: String!, $level: String!, $category: String!) {
-    createLobby(name: $name, level: $level, category: $category) {
+  mutation CreateLobby($name: String!, $level: String!, $category: String!, $game: String!) {
+    createLobby(name: $name, level: $level, category: $category, game: $game) {
       createdAt
       name
       id
       level
       category
+      game
       creator {
         id
         email
@@ -22,17 +23,19 @@ const CREATE_LOBBY = gql`
 
 const levels = ["Mild", "Moderate", "Wild"];
 const categories = ["Party", "Couples", "Teens", "Work"];
+const games = ["Truth or Dare", "Superlative"]
 
 const CreateLobby = ({ isOpen, onClose, onLobbyCreated }) => {
   const [name, setName] = useState('');
   const [level, setLevel] = useState('');
   const [category, setCategory] = useState('');
+  const [game, setGame] = useState('');
   const [createLobby] = useMutation(CREATE_LOBBY);
 
   const handleCreateLobby = async () => {
     try {
       const { data } = await createLobby({
-        variables: { name, level, category }
+        variables: { name, level, category, game }
       });
       console.log('Lobby created:', data.createLobby);
       const lobbyId = data.createLobby.id;
@@ -68,6 +71,12 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated }) => {
           {categories.map((category, index) => (
             <option key={index} value={category}>{category}</option>
           ))}
+        </select>
+        <select value={game} onChange={(e) => setGame(e.target.value)}>
+          <option value="">Select Game</option>
+          {games.map((game, index) => (
+            <option key={index} value={game}>{game}</option>
+            ))}
         </select>
         <button onClick={handleCreateLobby}>Create Lobby</button>
       </div>

@@ -11,6 +11,7 @@ const GET_LOBBY = gql`
       level
       category
       name
+      game
     }
   }
 `;
@@ -185,6 +186,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
       <div className="modal-content">
       <span className="close" onClick={onClose}>&times;</span>
         <h2>{lobby.name}</h2>
+        <h3>{lobby.game}</h3>
         <p>Level: {lobby.level}</p>
         <p>Category: {lobby.category}</p>
         <h3>Players</h3>
