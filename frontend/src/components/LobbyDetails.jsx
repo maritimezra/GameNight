@@ -169,7 +169,26 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   }
 
   const handleStartGame = async () => {
-    navigate(`/play-game?id=${lobbyId}`);
+    if (!dataLobby || !dataLobby.getLobby) {
+      console.error('Lobby data is not available');
+      return;
+    }
+    const lobby = dataLobby.getLobby;
+
+    let route;
+  switch (lobby.game) {
+    case 'Truth or Dare':
+      route = `/play-tod?id=${lobbyId}`;
+      break;
+    case 'Superlative':
+      route = `/play-superlative?id=${lobbyId}`;
+      break;
+    default:
+      console.error('Unknown game type');
+      return;
+  }
+
+  navigate(route);
   };
 
   if (loadingLobby || loadingPlayers || loadingCreator) return <p>Loading...</p>;

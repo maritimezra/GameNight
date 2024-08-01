@@ -38,8 +38,8 @@ const App = () => {
             <Route path="/"  element={<Home />} />
             <Route path="/truth-or-dare" element={<TODHome />} />
             <Route path="/superlative" element={<SuperlativeHome />} />
-            <Route path='play-tod' element={<TodGame />} />
-            <Route path='play-superlative' element={< SuperlativeGame />} />
+            <Route path="/play-tod" element={<TodGame />} />
+            <Route path="/play-superlative" element={<SuperlativeGame />} />
           </Routes>
           </Layout>
       </Router>
