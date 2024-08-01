@@ -19,5 +19,6 @@ class LobbyType:
     name: str
     level: str
     category: str
+    game: str
     created_at: str
     player = PlayerType
