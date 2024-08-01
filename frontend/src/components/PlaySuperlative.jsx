@@ -148,10 +148,10 @@ const SuperlativeGame = () => {
           <p>{question}</p>
         </div>
         <div className="top-right-button">
-          <button onClick={handleNextQuestion}>Next Question</button>
+          <button className="button" onClick={handleNextQuestion}>Next Question</button>
         </div>
         <div className="bottom-right-button">
-          <button onClick={handleEndGame}>End Game</button>
+          <button className="button-end-game" onClick={handleEndGame}>End Game</button>
         </div>
       </div>
     </div>
