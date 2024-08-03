@@ -21,7 +21,7 @@ class Category(models.TextChoices):
 class Game(models.TextChoices):
     "Truth or Dare"
     "Superative"
-    "DoorDrink"
+    "Do or Drink"
     "Never Have I Ever"
 
 
