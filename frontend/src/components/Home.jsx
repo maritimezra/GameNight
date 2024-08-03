@@ -16,6 +16,9 @@ const Home = () => {
       <div className="option" onClick={() => handleNavigation('/superlative')}>
         Superlative
       </div>
+      <div className="option" onClick={() => handleNavigation('/do-or-drink')}>
+        Do or Drink
+      </div>
     </div>
   );
 };
