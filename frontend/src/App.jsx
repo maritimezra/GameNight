@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import TODHome from './components/TOD';
 import SuperlativeHome from './components/Superlative';
+import DODHome from './components/DOD'
 import TodGame from './components/PlayTOD';
 import SuperlativeGame from './components/PlaySuperlative';
 import Layout from './components/Layout';
+import DodGame from './components/PlayDOD';
 
 
 
@@ -38,8 +40,10 @@ const App = () => {
             <Route path="/"  element={<Home />} />
             <Route path="/truth-or-dare" element={<TODHome />} />
             <Route path="/superlative" element={<SuperlativeHome />} />
+            <Route path="/do-or-drink" element={<DODHome />} />
             <Route path="/play-tod" element={<TodGame />} />
             <Route path="/play-superlative" element={<SuperlativeGame />} />
+            <Route path="/play-dod" element={<DodGame />} />
           </Routes>
           </Layout>
       </Router>
