@@ -4,19 +4,21 @@ import '../styles/Home.css';
 const Home = () => {
   const navigate = useNavigate();
 
-  const handleNavigation = (path) => {
-    navigate(path);
+
+  const handleGameSelect = (game) => {
+    const formattedGame = game.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/${formattedGame}`, { state: { selectedGame: game } });
   };
 
   return (
     <div className="home-container">
-      <div className="option" onClick={() => handleNavigation('/truth-or-dare')}>
+      <div className="option" onClick={() => handleGameSelect('Truth or Dare')}>
         Truth or Dare
       </div>
-      <div className="option" onClick={() => handleNavigation('/superlative')}>
+      <div className="option" onClick={() => handleGameSelect('Superlative')}>
         Superlative
       </div>
-      <div className="option" onClick={() => handleNavigation('/do-or-drink')}>
+      <div className="option" onClick={() => handleGameSelect('Do or Drink')}>
         Do or Drink
       </div>
     </div>
