@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import PropTypes from 'prop-types';
-import '../styles/Signup.css'; 
+import '../styles/Modals.css'; 
 
 const CREATE_USER = gql`
   mutation ($email: String!, $password: String!, $username: String!, $gender: String!) {

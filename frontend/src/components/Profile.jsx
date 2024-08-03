@@ -1,7 +1,7 @@
 import { useQuery, gql, useApolloClient, useMutation } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Profile.css';
+import '../styles/Modals.css';
 
 const ME = gql`
   query Me {
