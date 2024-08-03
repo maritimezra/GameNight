@@ -31,6 +31,7 @@ const DODHome = () => {
   const [isCreateLobbyOpen, setCreateLobbyOpen] = useState(false);
   const [isLobbyDetailsOpen, setLobbyDetailsOpen] = useState(false);
   const [selectedLobbyId, setSelectedLobbyId] = useState(null);
+  const [selectedGame, setSelectedGame] = useState('');
 
   const { loading: usernameLoading, error: usernameError, data: usernameData } = useQuery(GET_USERNAME, {
     fetchPolicy: 'network-only'
@@ -64,7 +65,10 @@ const DODHome = () => {
 
   useEffect(() => {
     refetch();
-  }, [location.key, refetch]);
+    if (location.state && location.state.selectedGame) {
+      setSelectedGame(location.state.selectedGame);
+    }
+  }, [location.key, refetch, location.state]);
 
   if (loading || usernameLoading) return <p>Loading...</p>;
   if (error || usernameError) return <p>{error ? error.message : usernameError.message}</p>;
@@ -112,6 +116,7 @@ const DODHome = () => {
         isOpen={isCreateLobbyOpen}
         onClose={closeCreateLobby}
         onLobbyCreated={handleLobbyCreated}
+        selectedGame={selectedGame}
       />
       {selectedLobbyId && (
         <LobbyDetails

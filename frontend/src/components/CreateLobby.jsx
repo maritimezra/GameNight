@@ -23,19 +23,17 @@ const CREATE_LOBBY = gql`
 
 const levels = ["Mild", "Moderate", "Wild"];
 const categories = ["Party", "Couples", "Teens", "Work"];
-const games = ["Truth or Dare", "Superlative", "Do or Drink"]
 
-const CreateLobby = ({ isOpen, onClose, onLobbyCreated }) => {
+const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame }) => {
   const [name, setName] = useState('');
   const [level, setLevel] = useState('');
   const [category, setCategory] = useState('');
-  const [game, setGame] = useState('');
   const [createLobby] = useMutation(CREATE_LOBBY);
 
   const handleCreateLobby = async () => {
     try {
       const { data } = await createLobby({
-        variables: { name, level, category, game }
+        variables: { name, level, category, game: selectedGame }
       });
       console.log('Lobby created:', data.createLobby);
       const lobbyId = data.createLobby.id;
@@ -46,7 +44,6 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated }) => {
     }
   };
 
-
   if (!isOpen) return null;
 
   return (
@@ -54,6 +51,7 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated }) => {
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
         <h2>Create Lobby</h2>
+        <h3>{selectedGame}</h3>
         <input
           type="text"
           placeholder="Name"
@@ -72,12 +70,6 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated }) => {
             <option key={index} value={category}>{category}</option>
           ))}
         </select>
-        <select value={game} onChange={(e) => setGame(e.target.value)}>
-          <option value="">Select Game</option>
-          {games.map((game, index) => (
-            <option key={index} value={game}>{game}</option>
-            ))}
-        </select>
         <button onClick={handleCreateLobby}>Create Lobby</button>
       </div>
     </div>
@@ -88,6 +80,7 @@ CreateLobby.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onLobbyCreated: PropTypes.func.isRequired,
+  selectedGame: PropTypes.string.isRequired,
 };
 
 export default CreateLobby;
