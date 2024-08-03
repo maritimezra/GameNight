@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
 import PropTypes from 'prop-types';
-import '../styles/LobbyDetails.css';
+import '../styles/Modals.css';import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 
 const GET_LOBBY = gql`
   query GetLobby($lobbyId: Int!) {
@@ -63,7 +65,6 @@ const GET_LOBBYID = gql`
   }
 `;
 
-
 const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   const navigate = useNavigate();
   const client = useApolloClient();
@@ -84,8 +85,8 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   const [editingPlayerId, setEditingPlayerId] = useState(null);
   const [newPlayerName, setNewPlayerName] = useState('');
   const [newPlayerToAdd, setNewPlayerToAdd] = useState('');
-  const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [isAddingPlayer, setIsAddingPlayer] = useState(false);
+  const [actionPlayerId, setActionPlayerId] = useState(null);
 
   const [editPlayer] = useMutation(EDIT_PLAYER, {
     refetchQueries: [{ query: GET_PLAYERS, variables: { lobbyId: parseInt(lobbyId) } }],
@@ -122,19 +123,19 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   };
 
   const handleRemovePlayer = async () => {
-    if (!selectedPlayerId) return;
+    if (!actionPlayerId) return;
 
     try {
       const { data } = await client.query({
         query: GET_LOBBYID,
-        variables: { playerId: parseInt(selectedPlayerId) },
+        variables: { playerId: parseInt(actionPlayerId) },
       });
 
       if (data.getLobbyid === parseInt(lobbyId)) {
         removePlayer({
-          variables: { lobbyId: parseInt(lobbyId), playerId: parseInt(selectedPlayerId) },
+          variables: { lobbyId: parseInt(lobbyId), playerId: parseInt(actionPlayerId) },
         }).then(() => {
-          setSelectedPlayerId(null);
+          setActionPlayerId(null);
         });
       } else {
         alert('Player does not belong to this lobby.');
@@ -155,18 +156,6 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
     });
   };
 
-  const handleActionChange = (event) => {
-    const action = event.target.value;
-    if (action === 'edit') {
-      const player = players.find(player => player.id === selectedPlayerId);
-      if (player) {
-        setEditingPlayerId(player.id);
-        setNewPlayerName(player.name);
-      }
-    } else if (action === 'remove') {
-      handleRemovePlayer();
-    }
-  }
 
   const handleStartGame = async () => {
     if (!dataLobby || !dataLobby.getLobby) {
@@ -176,22 +165,22 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
     const lobby = dataLobby.getLobby;
 
     let route;
-  switch (lobby.game) {
-    case 'Truth or Dare':
-      route = `/play-tod?id=${lobbyId}`;
-      break;
-    case 'Superlative':
-      route = `/play-superlative?id=${lobbyId}`;
-      break;
+    switch (lobby.game) {
+      case 'Truth or Dare':
+        route = `/play-tod?id=${lobbyId}`;
+        break;
+      case 'Superlative':
+        route = `/play-superlative?id=${lobbyId}`;
+        break;
       case 'Do or Drink':
         route = `/play-dod?id=${lobbyId}`;
         break;
-    default:
-      console.error('Unknown game type');
-      return;
-  }
+      default:
+        console.error('Unknown game type');
+        return;
+    }
 
-  navigate(route);
+    navigate(route);
   };
 
   if (loadingLobby || loadingPlayers || loadingCreator) return <p>Loading...</p>;
@@ -203,47 +192,64 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
 
   if (!isOpen) return null;
 
+
   return (
-    <div className="modal">
-      <div className="modal-content">
-      <span className="close" onClick={onClose}>&times;</span>
-        <h2>{lobby.name}</h2>
-        <h3>{lobby.game}</h3>
-        <p>Level: {lobby.level}</p>
-        <p>Category: {lobby.category}</p>
-        <h3>Players</h3>
-        <div style={{ marginBottom: '10px' }}>
-          <select value="" onChange={handleActionChange}>
-            <option value="">Action...</option>
-            <option value="edit">Edit</option>
-            <option value="remove">Remove</option>
-          </select>
-        </div>
-        <ul>
-          {players.map((player) => (
-            <div key={player.id} style={{ display: 'flex', alignItems: 'center' }}>
+    isOpen && (
+      <div className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={onClose}>
+            &times;
+          </span>
+          <h2>{lobby.name}</h2>
+          <h3>{lobby.game}</h3>
+          <p>Category: {lobby.category}</p>
+          <p>Level: {lobby.level}</p>
+          
+  
+          <ul className="player-list">
+            {players.map(player => (
+              <li key={player.id} className="player-item">
+                <span className="player-name">{player.name}</span>
+                {player.id !== 'creator' && (
+                  <div className="player-icons">
+                    <button
+                      className="icon-button"
+                      onClick={() => {
+                        setEditingPlayerId(player.id);
+                        setNewPlayerName(player.name);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                    <button
+                      className="icon-button"
+                      onClick={() => {
+                        setActionPlayerId(player.id);
+                        handleRemovePlayer();
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+  
+          {editingPlayerId && (
+            <div className="edit-player">
               <input
-                type="checkbox"
-                checked={selectedPlayerId === player.id}
-                onChange={() => setSelectedPlayerId(player.id)}
+                type="text"
+                className="edit-input"
+                value={newPlayerName}
+                onChange={e => setNewPlayerName(e.target.value)}
               />
-              {editingPlayerId === player.id ? (
-                <>
-                  <input
-                    type="text"
-                    value={newPlayerName}
-                    onChange={(e) => setNewPlayerName(e.target.value)}
-                  />
-                  <button onClick={handleEditPlayer}>Save</button>
-                  <button onClick={() => setEditingPlayerId(null)}>Cancel</button>
-                </>
-              ) : (
-                <span>{player.name}</span>
-              )}
+              <button className="edit-button" onClick={handleEditPlayer}>Save</button>
+              <button className="cancel-button" onClick={() => setEditingPlayerId(null)}>Cancel</button>
             </div>
-          ))}
-        </ul>
-        {isAddingPlayer ? (
+          )}
+  
+          {isAddingPlayer ? (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <input
               type="text"
@@ -252,14 +258,21 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
               onChange={(e) => setNewPlayerToAdd(e.target.value)}
             />
             <button onClick={handleAddPlayer}>Done</button>
+            <button className="cancel-button" onClick={() => setIsAddingPlayer(false)}>Cancel</button>
           </div>
         ) : (
-          <button onClick={() => setIsAddingPlayer(true)}>Add Players</button>
+          <button onClick={() => setIsAddingPlayer(true)}>Add Player(s)</button>
         )}
-        <button onClick={handleStartGame}>Start Game</button>
+  
+          <button className="start-game-button" onClick={handleStartGame}>
+            Start Game
+          </button>
+        </div>
       </div>
-    </div>
+    )
   );
+  
+  
 };
 
 LobbyDetails.propTypes = {
@@ -269,3 +282,4 @@ LobbyDetails.propTypes = {
 };
 
 export default LobbyDetails;
+
