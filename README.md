@@ -1,6 +1,6 @@
 # GameNight
 
-his is a web-based application designed for playing various party games games such as "Truth or Dare," "Superlative," and "Do or Drink." Users can create lobbies, add players, and enjoy a dynamic game experience. The application utilizes Django for the backend, GraphQL for the API, and React with Apollo Client for the frontend.
+This is a web-based application designed for playing various party games games such as "Truth or Dare," "Superlative," and "Do or Drink." Users can create lobbies, add players, and enjoy a dynamic game experience. The application utilizes Django for the backend, GraphQL for the API, and React with Apollo Client for the frontend.
 
 ## Features
 
