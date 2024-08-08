@@ -1,3 +1,4 @@
+/* Modal Container */
 .modal {
   position: fixed;
   top: 0;
@@ -11,18 +12,28 @@
   z-index: 1000;
 }
 
+/* Modal Content */
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 600px;
+  background-color: #fefefe;
+  padding: 20px; /* Increased padding for better spacing */
+  border-radius: 12px;
+  max-width: 450px; /* Reduced width for smaller modal */
   width: 100%;
   position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  animation: slide-down 0.3s ease-out;
 }
 
+<<<<<<< HEAD
 .profile-modal {
   position: absolute;
   top: 50px; 
+=======
+/* Profile Modal */
+.profile-modal {
+  position: absolute;
+  top: 50px;
+>>>>>>> 9394c8c0ffbb8ecf8b8406a35a24f1a4c78cc439
   right: 45.4px;
   width: 300px;
   background-color: white;
@@ -32,41 +43,77 @@
   z-index: 1000;
 }
 
+<<<<<<< HEAD
+=======
+/* Animation */
+@keyframes slide-down {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close Button */
+>>>>>>> 9394c8c0ffbb8ecf8b8406a35a24f1a4c78cc439
 .close {
   position: absolute;
   top: 10px;
   right: 10px;
   font-size: 24px;
   cursor: pointer;
+  color: #888;
+  transition: color 0.3s ease;
 }
 
+.close:hover {
+  color: #333;
+}
+
+/* Player List */
 .player-list {
+  max-height: 200px;
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  overflow-y: auto; /* Makes the player list scrollable */
 }
 
+/* Player Item */
 .player-item {
-  margin: 10px 0;
-  position: relative;
+  padding: 10px 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s ease;
 }
 
+.player-item:last-child {
+  border-bottom: none;
+}
+
+.player-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* Player Name */
 .player-name {
-  cursor: pointer;
-  color: black;
   flex-grow: 1;
+  color: #333;
+  font-weight: 500;
 }
 
-.player-name:hover {
-  color: #0056b3;
-}
-
+/* Player Icons */
 .player-icons {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 
 .icon-button {
@@ -75,30 +122,34 @@
   cursor: pointer;
   color: #007bff;
   font-size: 20px;
+  transition: color 0.3s ease;
 }
 
 .icon-button:hover {
   color: #0056b3;
 }
 
-.edit-player, .add-player {
+/* Edit and Add Player */
+.edit-player,
+.add-player {
   margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.edit-input, .add-input {
-  margin-right: 10px;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: calc(100% - 120px);
-}
-
-.edit-button, .cancel-button, .add-button, .start-game-button {
-  padding: 8px 16px;
+/* Buttons */
+.edit-button,
+.cancel-button,
+.add-button,
+.start-game-button,
+.modal-content button {
+  padding: 12px 20px; /* Increased padding for better button size */
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .edit-button {
@@ -119,28 +170,30 @@
 .start-game-button {
   background-color: #28a745;
   color: #fff;
+  width: 100%;
+  margin-top: 20px;
 }
 
-.edit-button:hover {
-  background-color: #218838;
+.modal-content button {
+  background-color: #007bff; /* Button color for login */
+  color: #fff;
+  width: 100%;
+  margin-top: 10px; /* Margin for spacing between buttons */
 }
 
-.cancel-button:hover {
-  background-color: #c82333;
+.edit-button:hover,
+.add-button:hover,
+.start-game-button:hover,
+.cancel-button:hover,
+.modal-content button:hover {
+  transform: scale(1.05);
 }
 
-.add-button:hover {
-  background-color: #0056b3;
-}
-
-.start-game-button:hover {
-  background-color: #218838;
-}
-
+/* General Button Styling */
 button {
   padding: 10px 15px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
 }
@@ -149,3 +202,18 @@ button:hover {
   opacity: 0.9;
 }
 
+<<<<<<< HEAD
+=======
+/* Form Input and Select Fields */
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="password"],
+.modal-content select {
+  width: 100%;
+  padding: 12px; /* Increased padding for better spacing */
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+>>>>>>> 9394c8c0ffbb8ecf8b8406a35a24f1a4c78cc439

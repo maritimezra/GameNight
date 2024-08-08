@@ -19,7 +19,7 @@ const Login = ({ isOpen, onClose }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showSignupModal, setShowSignupModal] = useState(false); 
+  const [showSignupModal, setShowSignupModal] = useState(false);
 
   const navigate = useNavigate();
   const [loginUser] = useMutation(LOGIN_USER);
@@ -33,7 +33,7 @@ const Login = ({ isOpen, onClose }) => {
         console.log('Token:', data.login.token);
         localStorage.setItem('token', data.login.token);
         navigate('/');
-        onClose(); 
+        onClose();
       } else {
         setError('Invalid email or password');
       }
