@@ -151,7 +151,7 @@ const TodGame = () => {
     <div className="main-container">
       <div className="container">
         <h2 className="current-turn">Current Turn: <span className="animate-character">{players[currentTurn]}</span></h2>
-        <div className="question">
+        <div className="tod-question">
           <p>{question}</p>
           <div className="group-button">
           <button className="button" onClick={handleTruth}>&#8592; Truth</button>

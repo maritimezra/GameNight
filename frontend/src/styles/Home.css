@@ -3,8 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #f5f5f5;
+  height: 90vh;
+  background: linear-gradient(109.6deg, rgb(218, 185, 252) 11.2%, rgb(125, 89, 252) 91.1%);
 }
 
 .title {
@@ -29,4 +29,158 @@
 
 .option:hover {
   background-color: #0056b3;
+}
+
+#formList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 2s ease, transform 2s ease;  
+}
+
+#formList.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: max-content;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  padding: 2px;
+  position: relative;
+}
+
+#list legend {
+  font-size: 12px;
+  font-family: "Lato", sans-serif;
+  color: #ffffff;
+  padding: 0 2px;
+}
+
+.avatar {
+  width: 200px;
+  height: 250px;
+  border-radius: 4%;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.664);
+  position: relative;
+  cursor: pointer; /* Add cursor style here */
+}
+
+.avatar img {
+  backface-visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 2%;
+}
+
+.avatar .front {
+  z-index: 2;
+  transform: rotateY(0deg);
+  transition: transform 0.5s;
+}
+
+.avatar .back {
+  transform: rotateY(180deg);
+  transition: transform 0.5s;
+}
+
+.item:hover .avatar {
+  transform: rotateY(180deg);
+}
+
+.item.exiting .avatar {
+  transform: rotateY(0deg);
+  transition: transform 0.5s 2s;
+}
+
+.avatar.delayed {
+  transition-delay: 0s;
+}
+
+.item {
+  perspective: 1000px;
+  margin: 10px;
+}
+
+.item .content {
+  padding: 80px;
+  font-family: ray-ban;
+}
+
+.item .content table td {
+  padding: 10px 0;
+  border-bottom: 1px solid #AEC0CE;
+}
+
+.item .content table td:nth-child(2) {
+  text-align: right;
+}
+
+.item .nameGroup {
+  text-align: center;
+  border-bottom: none !important;
+}
+
+#formList::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .item {
+    width: calc(33.3vw - 20px);
+  }
+
+  .direction {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .item {
+    width: calc(50vw - 20px);
+  }
+
+  .direction {
+    display: none;
+  }
+}
+
+@keyframes animate {
+  0%,
+  100% {
+    clip-path: polygon(
+      0% 45%,
+      16% 44%,
+      33% 50%,
+      54% 60%,
+      70% 61%,
+      84% 59%,
+      100% 52%,
+      100% 100%,
+      0% 100%
+    );
+  }
+
+  50% {
+    clip-path: polygon(
+      0% 60%,
+      15% 65%,
+      34% 66%,
+      51% 62%,
+      67% 50%,
+      84% 45%,
+      100% 46%,
+      100% 100%,
+      0% 100%
+    );
+  }
 }
