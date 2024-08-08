@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
 import PropTypes from 'prop-types';
-import '../styles/Modals.css';import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import '../styles/Modals.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 
 const GET_LOBBY = gql`
@@ -205,8 +206,6 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
           <p>Category: {lobby.category}</p>
           <p>Level: {lobby.level}</p>
           <h3>Players</h3>
-          
-  
           <ul className="player-list">
             {players.map(player => (
               <li key={player.id} className="player-item">
@@ -245,8 +244,8 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                 value={newPlayerName}
                 onChange={e => setNewPlayerName(e.target.value)}
               />
-              <button className="edit-button" onClick={handleEditPlayer}>Save</button>
-              <button className="cancel-button" onClick={() => setEditingPlayerId(null)}>Cancel</button>
+              <button className="icon-button" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></button>
+              <button className="icon-button" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></button>
             </div>
           )}
   
@@ -258,8 +257,8 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
               value={newPlayerToAdd}
               onChange={(e) => setNewPlayerToAdd(e.target.value)}
             />
-            <button onClick={handleAddPlayer}>Done</button>
-            <button className="cancel-button" onClick={() => setIsAddingPlayer(false)}>Cancel</button>
+            <button className="icon-button" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></button>
+            <button className="icon-button" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></button>
           </div>
         ) : (
           <button onClick={() => setIsAddingPlayer(true)}>Add Player(s)</button>

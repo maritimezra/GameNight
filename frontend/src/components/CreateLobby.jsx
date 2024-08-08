@@ -47,32 +47,36 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
-        <h2>Create Lobby</h2>
-        <h3>{selectedGame}</h3>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <select value={level} onChange={(e) => setLevel(e.target.value)}>
-          <option value="">Select Level</option>
-          {levels.map((level, index) => (
-            <option key={index} value={level}>{level}</option>
-          ))}
-        </select>
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="">Select Category</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>{category}</option>
-          ))}
-        </select>
-        <button onClick={handleCreateLobby}>Create Lobby</button>
-      </div>
+    isOpen && (
+      <div className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={onClose}>
+            &times;
+          </span>
+          <h2>Create Lobby</h2>
+          <h3>{selectedGame}</h3>
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <select value={level} onChange={(e) => setLevel(e.target.value)}>
+            <option value="">Select Level</option>
+            {levels.map((level, index) => (
+              <option key={index} value={level}>{level}</option>
+            ))}
+          </select>
+          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="">Select Category</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>{category}</option>
+            ))}
+          </select>
+          <button onClick={handleCreateLobby}>Create Lobby</button>
+        </div>
     </div>
+    )
   );
 };
 
