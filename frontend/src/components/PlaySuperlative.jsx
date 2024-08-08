@@ -144,7 +144,7 @@ const SuperlativeGame = () => {
     <div className="main-container">
       <div className="container">
         <h2 className="current-turn">Current Question: </h2>
-        <div className="question">
+        <div className="superlative-question">
           <p>{question}</p>
         </div>
         <div className="top-right-button">
