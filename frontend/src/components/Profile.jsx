@@ -19,17 +19,15 @@ const LOGOUT = gql`
   }
 `;
 
-
 const genderMapping = {
   M: 'Male',
   F: 'Female',
   N: 'Nonbinary'
 };
 
-const Profile = ({ isOpen, onClose }) => {
-  const { loading, error, data } = useQuery(ME);
+const Profile = ({ isOpen, onClose, refetch }) => {
+  const { loading, error, data } = useQuery(ME, { fetchPolicy: 'network-only' });
   const [logout] = useMutation(LOGOUT);
-
   const navigate = useNavigate();
   const client = useApolloClient();
 
@@ -39,7 +37,8 @@ const Profile = ({ isOpen, onClose }) => {
       await client.resetStore();
       localStorage.removeItem('token');
       onClose();
-      navigate('/')
+      navigate('/');
+      refetch(); // Update authentication state
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -68,7 +67,8 @@ const Profile = ({ isOpen, onClose }) => {
 
 Profile.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  refetch: PropTypes.func.isRequired,
 };
 
 export default Profile;

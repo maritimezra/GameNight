@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import '../styles/Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
 import Login from './Login';
 
-const Header = ({ openProfileModal }) => {
+const Header = ({ openProfileModal, isAuthenticated, onAuthChange }) => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    onAuthChange(); // Update authentication state
+  }, [onAuthChange]);
 
   const handleProfileClick = () => {
     if (isAuthenticated) {
@@ -25,7 +28,7 @@ const Header = ({ openProfileModal }) => {
 
   const handleLoginClose = () => {
     setShowLoginModal(false);
-    setIsAuthenticated(!!localStorage.getItem('token'));
+    onAuthChange();
   };
 
   return (
@@ -43,6 +46,8 @@ const Header = ({ openProfileModal }) => {
 
 Header.propTypes = {
   openProfileModal: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  onAuthChange: PropTypes.func.isRequired,
 };
 
 export default Header;
