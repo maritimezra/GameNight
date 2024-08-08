@@ -24,16 +24,10 @@
   animation: slide-down 0.3s ease-out;
 }
 
-<<<<<<< HEAD
-.profile-modal {
-  position: absolute;
-  top: 50px; 
-=======
 /* Profile Modal */
 .profile-modal {
   position: absolute;
   top: 50px;
->>>>>>> 9394c8c0ffbb8ecf8b8406a35a24f1a4c78cc439
   right: 45.4px;
   width: 300px;
   background-color: white;
@@ -43,8 +37,6 @@
   z-index: 1000;
 }
 
-<<<<<<< HEAD
-=======
 /* Animation */
 @keyframes slide-down {
   from {
@@ -58,7 +50,6 @@
 }
 
 /* Close Button */
->>>>>>> 9394c8c0ffbb8ecf8b8406a35a24f1a4c78cc439
 .close {
   position: absolute;
   top: 10px;
@@ -202,8 +193,6 @@ button:hover {
   opacity: 0.9;
 }
 
-<<<<<<< HEAD
-=======
 /* Form Input and Select Fields */
 .modal-content input[type="text"],
 .modal-content input[type="email"],
@@ -216,4 +205,3 @@ button:hover {
   border-radius: 8px;
   font-size: 16px;
 }
->>>>>>> 9394c8c0ffbb8ecf8b8406a35a24f1a4c78cc439

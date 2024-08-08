@@ -205,13 +205,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
           <h3>{lobby.game}</h3>
           <p>Category: {lobby.category}</p>
           <p>Level: {lobby.level}</p>
-<<<<<<< HEAD
-          <p>Players</p>
-          
-  
-=======
           <h3>Players</h3>
->>>>>>> 9394c8c0ffbb8ecf8b8406a35a24f1a4c78cc439
           <ul className="player-list">
             {players.map(player => (
               <li key={player.id} className="player-item">
