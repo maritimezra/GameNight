@@ -204,6 +204,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
           <h3>{lobby.game}</h3>
           <p>Category: {lobby.category}</p>
           <p>Level: {lobby.level}</p>
+          <h3>Players</h3>
           
   
           <ul className="player-list">
@@ -264,9 +265,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
           <button onClick={() => setIsAddingPlayer(true)}>Add Player(s)</button>
         )}
   
-          <button className="start-game-button" onClick={handleStartGame}>
-            Start Game
-          </button>
+          <button className="start-game-button" onClick={handleStartGame}>Start Game</button>
         </div>
       </div>
     )
