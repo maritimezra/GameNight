@@ -1,21 +1,35 @@
 import PropTypes from 'prop-types';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import '../styles/Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import Login from './Login';
 
-
-const Header = ({ openProfileModal }) => {
+const Header = ({ openProfileModal, isAuthenticated, onAuthChange }) => {
   const navigate = useNavigate();
-  
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    onAuthChange(); // Update authentication state
+  }, [onAuthChange]);
 
   const handleProfileClick = () => {
-    openProfileModal();
+    if (isAuthenticated) {
+      openProfileModal();
+    } else {
+      setShowLoginModal(true);
+    }
   };
 
   const handleTitleClick = () => {
     navigate('/');
-  }
+  };
+
+  const handleLoginClose = () => {
+    setShowLoginModal(false);
+    onAuthChange();
+  };
 
   return (
     <header className="header">
@@ -25,12 +39,16 @@ const Header = ({ openProfileModal }) => {
           <FontAwesomeIcon icon={faUser} />
         </span>
       </div>
+      {showLoginModal && <Login isOpen={true} onClose={handleLoginClose} />}
     </header>
   );
 };
 
 Header.propTypes = {
-    openProfileModal: PropTypes.func.isRequired,
-  };
+  openProfileModal: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  onAuthChange: PropTypes.func.isRequired,
+};
 
 export default Header;
+

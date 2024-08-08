@@ -204,6 +204,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
           <h3>{lobby.game}</h3>
           <p>Category: {lobby.category}</p>
           <p>Level: {lobby.level}</p>
+          <p>Players</p>
           
   
           <ul className="player-list">

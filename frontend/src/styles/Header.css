@@ -4,7 +4,7 @@
   align-items: center;
   padding: 15px 20px;
   padding-bottom: 20px;
-  background-color: #4e54c8;
+  background: linear-gradient(0 deg, rgb(218, 185, 252) 11.2%, rgb(125, 89, 252) 91.1%);
   position: fixed;
   top: 0;
   left: 0;
