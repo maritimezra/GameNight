@@ -8,17 +8,19 @@ import Login from './Login';
 
 const Header = ({ openProfileModal, isAuthenticated, onAuthChange }) => {
   const navigate = useNavigate();
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [initialForm, setInitialForm] = useState('login');
 
   useEffect(() => {
-    onAuthChange(); // Update authentication state
+    onAuthChange();
   }, [onAuthChange]);
 
   const handleProfileClick = () => {
     if (isAuthenticated) {
       openProfileModal();
     } else {
-      setShowLoginModal(true);
+      setInitialForm('login');
+      setShowModal(true);
     }
   };
 
@@ -26,10 +28,11 @@ const Header = ({ openProfileModal, isAuthenticated, onAuthChange }) => {
     navigate('/');
   };
 
-  const handleLoginClose = () => {
-    setShowLoginModal(false);
+  const handleModalClose = () => {
+    setShowModal(false);
     onAuthChange();
   };
+
 
   return (
     <header className="header">
@@ -39,7 +42,13 @@ const Header = ({ openProfileModal, isAuthenticated, onAuthChange }) => {
           <FontAwesomeIcon icon={faUser} />
         </span>
       </div>
-      {showLoginModal && <Login isOpen={true} onClose={handleLoginClose} />}
+      {showModal && (
+        <Login
+          isOpen={showModal}
+          onClose={handleModalClose}
+          initialForm={initialForm}
+        />
+      )}
     </header>
   );
 };
@@ -51,4 +60,3 @@ Header.propTypes = {
 };
 
 export default Header;
-
