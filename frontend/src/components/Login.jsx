@@ -30,8 +30,8 @@ const genderOptions = [
   { value: 'N', label: 'Nonbinary' },
 ];
 
-const Login = ({ isOpen, onClose, initialForm }) => {
-  const [isLogin, setIsLogin] = useState(initialForm === 'login');
+const Login = ({ isOpen, onClose, showLoginAfterSignup }) => {
+  const [isLogin, setIsLogin] = useState(!showLoginAfterSignup);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -62,7 +62,7 @@ const Login = ({ isOpen, onClose, initialForm }) => {
   const handleSignup = async () => {
     try {
       await createUser({ variables: { email, password, username, gender } });
-      onClose();
+      setIsLogin(true); // Switch to login form after successful signup
     } catch (error) {
       setError('An error occurred during signup');
     }
@@ -152,7 +152,7 @@ const Login = ({ isOpen, onClose, initialForm }) => {
 Login.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  initialForm: PropTypes.oneOf(['login', 'signup']),
+  showLoginAfterSignup: PropTypes.bool,
 };
 
 export default Login;
