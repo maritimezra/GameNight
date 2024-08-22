@@ -176,6 +176,9 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
       case 'Do or Drink':
         route = `/play-dod?id=${lobbyId}`;
         break;
+      case 'Never Have I Ever':
+        route = `/play-nhie?id=${lobbyId}`;
+        break;
       default:
         console.error('Unknown game type');
         return;
