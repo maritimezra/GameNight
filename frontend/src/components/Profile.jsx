@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useQuery, gql, useApolloClient, useMutation } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +27,7 @@ const genderMapping = {
 };
 
 const Profile = ({ isOpen, onClose, refetch }) => {
-  const { loading, error, data } = useQuery(ME, { fetchPolicy: 'network-only' });
+  const { loading, error, data, refetch: refetchUser } = useQuery(ME, { fetchPolicy: 'network-only' });
   const [logout] = useMutation(LOGOUT);
   const navigate = useNavigate();
   const client = useApolloClient();
@@ -43,6 +44,12 @@ const Profile = ({ isOpen, onClose, refetch }) => {
       console.error('Error logging out:', error);
     }
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      refetchUser(); // Refetch user data when the modal opens
+    }
+  }, [isOpen, refetchUser]);
 
   if (!isOpen) return null;
 
@@ -72,4 +79,3 @@ Profile.propTypes = {
 };
 
 export default Profile;
-
