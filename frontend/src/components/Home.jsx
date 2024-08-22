@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Home.css';
 
-// Importing images from src/images
 import TruthOrDareFront from '../images/Truth_Or_Dare.png';
 import TruthOrDareBack from '../images/Truth_Or_Dare_Back.png';
 import SuperlativeFront from '../images/The_Superlative.png';
