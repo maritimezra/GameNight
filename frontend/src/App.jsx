@@ -9,6 +9,8 @@ import TodGame from './components/PlayTOD';
 import SuperlativeGame from './components/PlaySuperlative';
 import Layout from './components/Layout';
 import DodGame from './components/PlayDOD';
+import NHIEHome from './components/NHIE';
+import NHIEGame from './components/PlayNHIE';
 
 const httpLink = createHttpLink({
   uri: 'http://127.0.0.1:8000/graphql/',
@@ -39,9 +41,11 @@ const App = () => {
             <Route path="/truth-or-dare" element={<TODHome />} />
             <Route path="/superlative" element={<SuperlativeHome />} />
             <Route path="/do-or-drink" element={<DODHome />} />
+            <Route path="/never-have-i-ever" element={<NHIEHome />} />
             <Route path="/play-tod" element={<TodGame />} />
             <Route path="/play-superlative" element={<SuperlativeGame />} />
             <Route path="/play-dod" element={<DodGame />} />
+            <Route path="/play-nhie" element={<NHIEGame />} />
           </Routes>
         </Layout>
       </Router>
