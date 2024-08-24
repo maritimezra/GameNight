@@ -13,51 +13,47 @@ import DoOrDrinkBack from '../images/Do_Or_Drink_Back.png';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [flipped, setFlipped] = useState(null); // State to track flipped avatar
-  const timerRef = useRef(null); // Timer reference for the delay
 
   const handleGameSelect = (game) => {
     const formattedGame = game.toLowerCase().replace(/\s+/g, '-');
     navigate(`/${formattedGame}`, { state: { selectedGame: game } });
   };
 
-  const handleMouseEnter = (index) => {
-    // Clear any existing timer
-    if (timerRef.current) clearTimeout(timerRef.current);
-
-    setFlipped(index);
-  };
-
-  const handleMouseLeave = () => {
-    timerRef.current = setTimeout(() => {
-      setFlipped(null);
-    }, 5000); // 5 seconds delay
-  };
+  useEffect(() => {
+    // Automatically show the form list with a zoom effect
+    const formList = document.getElementById('formList');
+    formList.classList.add('show');
+  }, []);
 
   return (
     <div className="home-container">
-      <div id="formList" className="show"> {/* Ensure the 'show' class is applied */}
+      <div id="formList" className="hidden">
         <fieldset id="list">
           <legend>Game Night</legend>
-          {[ 
-            { front: TruthOrDareFront, back: TruthOrDareBack, game: 'Truth or Dare' },
-            { front: SuperlativeFront, back: SuperlativeBack, game: 'Superlative' },
-            { front: NeverHaveIEverFront, back: NeverHaveIEverBack, game: 'Never Have I Ever' },
-            { front: DoOrDrinkFront, back: DoOrDrinkBack, game: 'Do or Drink' }
-          ].map((item, index) => (
-            <div 
-              key={index}
-              className="item"
-              onClick={() => handleGameSelect(item.game)}
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div className={`avatar ${flipped === index ? 'flipped' : ''}`}>
-                <img src={item.front} className="front" alt={`${item.game} Front`} />
-                <img src={item.back} className="back" alt={`${item.game} Back`} />
-              </div>
+          <div className="item" onClick={() => handleGameSelect('Truth or Dare')}>
+            <div className="avatar">
+              <img src={TruthOrDareFront} className="front" alt="Truth or Dare Front" />
+              <img src={TruthOrDareBack} className="back" alt="Truth or Dare Back" />
             </div>
-          ))}
+          </div>
+          <div className="item" onClick={() => handleGameSelect('Superlative')}>
+            <div className="avatar">
+              <img src={SuperlativeFront} className="front" alt="The Superlative Front" />
+              <img src={SuperlativeBack} className="back" alt="The Superlative Back" />
+            </div>
+          </div>
+          <div className="item" onClick={() => handleGameSelect('Never Have I Ever')}>
+            <div className="avatar">
+              <img src={NeverHaveIEverFront} className="front" alt="Never Have I Ever Front" />
+              <img src={NeverHaveIEverBack} className="back" alt="Never Have I Ever Back" />
+            </div>
+          </div>
+          <div className="item" onClick={() => handleGameSelect('Do or Drink')}>
+            <div className="avatar">
+              <img src={DoOrDrinkFront} className="front" alt="Do or Drink Front" />
+              <img src={DoOrDrinkBack} className="back" alt="Do or Drink Back" />
+            </div>
+          </div>
         </fieldset>
       </div>
     </div>
