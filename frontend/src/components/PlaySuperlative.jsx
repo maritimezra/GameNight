@@ -145,10 +145,12 @@ const SuperlativeGame = () => {
       <div className="container">
         <h2 className="current-turn">Current Question: </h2>
         <div className="superlative-question">
+        <div className="superlative-text">
           <p>{question}</p>
         </div>
+        </div>
         <div className="top-right-button">
-          <button className="button" onClick={handleNextQuestion}>Next Question</button>
+          <button className="next-question" onClick={handleNextQuestion}>Next Question</button>
         </div>
         <div className="bottom-right-button">
           <button className="button-end-game" onClick={handleEndGame}>End Game</button>
