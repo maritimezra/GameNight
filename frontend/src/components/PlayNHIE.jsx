@@ -3,18 +3,18 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import '../styles/Game.css'
 
-import couplesMildQuestions from '../questions/superlative/couples/mild.json';
-import couplesModQuestions from '../questions/superlative/couples/mod.json';
-import couplesWildQuestions from '../questions/superlative/couples/wild.json';
-import partyMildQuestions from '../questions/superlative/party/mild.json';
-import partyModQuestions from '../questions/superlative/party/mod.json';
-import partyWildQuestions from '../questions/superlative/party/wild.json';
-import teensMildQuestions from '../questions/superlative/teens/mild.json';
-import teensModQuestions from '../questions/superlative/teens/mod.json';
-import teensWildQuestions from '../questions/superlative/teens/wild.json';
-import workMildQuestions from '../questions/superlative/work/mild.json';
-import workModQuestions from '../questions/superlative/work/mod.json';
-import workWildQuestions from '../questions/superlative/work/wild.json';
+import couplesMildQuestions from '../questions/nhie/couples/mild.json';
+import couplesModQuestions from '../questions/nhie/couples/mod.json';
+import couplesWildQuestions from '../questions/nhie/couples/wild.json';
+import partyMildQuestions from '../questions/nhie/party/mild.json';
+import partyModQuestions from '../questions/nhie/party/mod.json';
+import partyWildQuestions from '../questions/nhie/party/wild.json';
+import teensMildQuestions from '../questions/nhie/teens/mild.json';
+import teensModQuestions from '../questions/nhie/teens/mod.json';
+import teensWildQuestions from '../questions/nhie/teens/wild.json';
+import workMildQuestions from '../questions/nhie/work/mild.json';
+import workModQuestions from '../questions/nhie/work/mod.json';
+import workWildQuestions from '../questions/nhie/work/wild.json';
 
 
 const GET_LOBBY = gql`
@@ -28,7 +28,7 @@ const GET_LOBBY = gql`
 `;
 
 
-const SuperlativeGame = () => {
+const NHIEGame = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -144,13 +144,11 @@ const SuperlativeGame = () => {
     <div className="main-container">
       <div className="container">
         <h2 className="current-turn">Current Question: </h2>
-        <div className="superlative-question">
-        <div className="superlative-text">
+        <div>
           <p>{question}</p>
         </div>
-        </div>
         <div className="top-right-button">
-          <button className="next-question" onClick={handleNextQuestion}>Next Question</button>
+          <button className="button" onClick={handleNextQuestion}>Next Question</button>
         </div>
         <div className="bottom-right-button">
           <button className="button-end-game" onClick={handleEndGame}>End Game</button>
@@ -160,4 +158,4 @@ const SuperlativeGame = () => {
   );
 };
 
-export default SuperlativeGame;
+export default NHIEGame;

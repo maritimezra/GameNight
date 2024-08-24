@@ -104,6 +104,27 @@ class Query:
             raise Exception("Invalid token. Please log in again.")
 
     @strawberry.field
+    def get_nhie_lobbies(self, info) -> List[LobbyType]:
+        auth_header = info.context.request.headers.get("Authorization", "")
+        if auth_header.startswith("Bearer "):
+            token = auth_header.split(" ")[1]
+        else:
+            raise Exception("Invalid Authorization header format.")
+
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            user_id = payload["user_id"]
+            user = User.objects.get(id=user_id)
+            superlative_lobbies = Lobby.objects.filter(
+                creator=user, game="Never Have I Ever"
+            )
+            return list(superlative_lobbies)
+        except jwt.ExpiredSignatureError:
+            raise Exception("Token expired. Please log in again.")
+        except jwt.exceptions.DecodeError:
+            raise Exception("Invalid token. Please log in again.")
+
+    @strawberry.field
     def get_lobby(self, lobby_id: int) -> LobbyType:
         return Lobby.objects.get(id=lobby_id)
 
