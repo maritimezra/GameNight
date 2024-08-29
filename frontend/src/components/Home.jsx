@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Home.css';
 
@@ -20,10 +20,19 @@ const games = [
 
 const Home = () => {
   const navigate = useNavigate();
+  const [clickedItem, setClickedItem] = useState(null);
 
   const handleGameSelect = (game) => {
     const formattedGame = game.toLowerCase().replace(/\s+/g, '-');
     navigate(`/${formattedGame}`, { state: { selectedGame: game } });
+  };
+
+  const handleImageClick = (gameName, index) => {
+    setClickedItem(index);
+    setTimeout(() => {
+      setClickedItem(null);
+      handleGameSelect(gameName);
+    }, 700);
   };
 
   useEffect(() => {
@@ -36,8 +45,15 @@ const Home = () => {
       <div id="formList" className="hidden">
         <fieldset id="list">
           <legend>Game Night</legend>
-          {games.map((game) => (
-            <div key={game.name} className="item" onClick={() => handleGameSelect(game.name)} role="button" tabIndex="0" aria-label={`Select ${game.name}`}>
+          {games.map((game, index) => (
+            <div
+              key={game.name}
+              className={`item ${clickedItem === index ? 'animate' : ''}`}
+              onClick={() => handleImageClick(game.name, index)}
+              role="button"
+              tabIndex="0"
+              aria-label={`Select ${game.name}`}
+            >
               <div className="avatar">
                 <img src={game.front} className="front" alt={`${game.name} Front`} />
                 <img src={game.back} className="back" alt={`${game.name} Back`} />
