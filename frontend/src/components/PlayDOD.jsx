@@ -132,7 +132,6 @@ const DodGame = () => {
   useEffect(() => {
     if (dataLobby) {
       const { level, category } = dataLobby.getLobby;
-      console.log('Lobby data:', { level, category });
       fetchQuestion(category, level);
     }
   }, [dataLobby]);
