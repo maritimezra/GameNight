@@ -6,7 +6,6 @@ import '../styles/Modals.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-
 const GET_LOBBY = gql`
   query GetLobby($lobbyId: Int!) {
     getLobby(lobbyId: $lobbyId) {
@@ -71,15 +70,15 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   const client = useApolloClient();
 
   const { loading: loadingLobby, error: errorLobby, data: dataLobby } = useQuery(GET_LOBBY, {
-    variables: { lobbyId: parseInt(lobbyId) },
+    variables: { lobbyId: parseInt(lobbyId, 10) },
   });
 
   const { loading: loadingPlayers, error: errorPlayers, data: dataPlayers } = useQuery(GET_PLAYERS, {
-    variables: { lobbyId: parseInt(lobbyId) },
+    variables: { lobbyId: parseInt(lobbyId, 10) },
   });
 
   const { loading: loadingCreator, error: errorCreator, data: dataCreator } = useQuery(GET_CREATOR, {
-    variables: { lobbyId: parseInt(lobbyId) },
+    variables: { lobbyId: parseInt(lobbyId, 10) },
   });
 
   const [players, setPlayers] = useState([]);
@@ -90,15 +89,15 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   const [actionPlayerId, setActionPlayerId] = useState(null);
 
   const [editPlayer] = useMutation(EDIT_PLAYER, {
-    refetchQueries: [{ query: GET_PLAYERS, variables: { lobbyId: parseInt(lobbyId) } }],
+    refetchQueries: [{ query: GET_PLAYERS, variables: { lobbyId: parseInt(lobbyId, 10) } }],
   });
 
   const [removePlayer] = useMutation(REMOVE_PLAYER, {
-    refetchQueries: [{ query: GET_PLAYERS, variables: { lobbyId: parseInt(lobbyId) } }],
+    refetchQueries: [{ query: GET_PLAYERS, variables: { lobbyId: parseInt(lobbyId, 10) } }],
   });
 
   const [addPlayer] = useMutation(ADD_PLAYER, {
-    refetchQueries: [{ query: GET_PLAYERS, variables: { lobbyId: parseInt(lobbyId) } }],
+    refetchQueries: [{ query: GET_PLAYERS, variables: { lobbyId: parseInt(lobbyId, 10) } }],
   });
 
   useEffect(() => {
@@ -116,7 +115,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
     if (!editingPlayerId || !newPlayerName.trim()) return;
 
     editPlayer({
-      variables: { playerId: parseInt(editingPlayerId), newName: newPlayerName },
+      variables: { playerId: parseInt(editingPlayerId, 10), newName: newPlayerName },
     }).then(() => {
       setEditingPlayerId(null);
       setNewPlayerName('');
@@ -129,12 +128,12 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
     try {
       const { data } = await client.query({
         query: GET_LOBBYID,
-        variables: { playerId: parseInt(actionPlayerId) },
+        variables: { playerId: parseInt(actionPlayerId, 10) },
       });
 
-      if (data.getLobbyid === parseInt(lobbyId)) {
+      if (data.getLobbyid === parseInt(lobbyId, 10)) {
         removePlayer({
-          variables: { lobbyId: parseInt(lobbyId), playerId: parseInt(actionPlayerId) },
+          variables: { lobbyId: parseInt(lobbyId, 10), playerId: parseInt(actionPlayerId, 10) },
         }).then(() => {
           setActionPlayerId(null);
         });
@@ -150,13 +149,12 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
     if (!newPlayerToAdd.trim()) return;
 
     addPlayer({
-      variables: { lobbyId: parseInt(lobbyId), playerName: newPlayerToAdd },
+      variables: { lobbyId: parseInt(lobbyId, 10), playerName: newPlayerToAdd },
     }).then(() => {
       setNewPlayerToAdd('');
       setIsAddingPlayer(false);
     });
   };
-
 
   const handleStartGame = async () => {
     if (!dataLobby || !dataLobby.getLobby) {
@@ -196,7 +194,6 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
 
   if (!isOpen) return null;
 
-
   return (
     isOpen && (
       <div className="modal">
@@ -215,24 +212,24 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                 <span className="player-name">{player.name}</span>
                 {player.id !== 'creator' && (
                   <div className="player-icons">
-                    <button
-                      className="icon-button"
+                    <span
+                      className="icon"
                       onClick={() => {
                         setEditingPlayerId(player.id);
                         setNewPlayerName(player.name);
                       }}
                     >
                       <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                    <button
-                      className="icon-button"
+                    </span>
+                    <span
+                      className="icon"
                       onClick={() => {
                         setActionPlayerId(player.id);
                         handleRemovePlayer();
                       }}
                     >
                       <FontAwesomeIcon icon={faTrash} />
-                    </button>
+                    </span>
                   </div>
                 )}
               </li>
@@ -240,40 +237,38 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
           </ul>
   
           {editingPlayerId && (
-            <div className="edit-player">
+            <div className="edit-player"style={{ display: 'flex', alignItems: 'center'}}>
               <input
                 type="text"
                 className="edit-input"
                 value={newPlayerName}
                 onChange={e => setNewPlayerName(e.target.value)}
               />
-              <button className="icon-button" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></button>
-              <button className="icon-button" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></button>
+              <span className="icon" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></span>
+              <span className="icon" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></span>
             </div>
           )}
   
           {isAddingPlayer ? (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <input
-              type="text"
-              placeholder="New player name"
-              value={newPlayerToAdd}
-              onChange={(e) => setNewPlayerToAdd(e.target.value)}
-            />
-            <button className="icon-button" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></button>
-            <button className="icon-button" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></button>
-          </div>
-        ) : (
-          <button onClick={() => setIsAddingPlayer(true)}>Add Player(s)</button>
-        )}
+            <div className="add-player" style={{ display: 'flex', alignItems: 'center' }}>
+              <input
+                type="text"
+                placeholder="New player name"
+                value={newPlayerToAdd}
+                onChange={(e) => setNewPlayerToAdd(e.target.value)}
+              />
+              <span className="icon" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></span>
+              <span className="icon" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></span>
+            </div>
+          ) : (
+            <button onClick={() => setIsAddingPlayer(true)}>Add Player(s)</button>
+          )}
   
           <button className="start-game-button" onClick={handleStartGame}>Start Game</button>
         </div>
       </div>
     )
   );
-  
-  
 };
 
 LobbyDetails.propTypes = {
@@ -283,4 +278,3 @@ LobbyDetails.propTypes = {
 };
 
 export default LobbyDetails;
-
