@@ -11,6 +11,13 @@ import NeverHaveIEverBack from '../images/Never_Have_I_Ever_Back.png';
 import DoOrDrinkFront from '../images/Do_Or_Drink.png';
 import DoOrDrinkBack from '../images/Do_Or_Drink_Back.png';
 
+const games = [
+  { name: 'Truth or Dare', front: TruthOrDareFront, back: TruthOrDareBack },
+  { name: 'Superlative', front: SuperlativeFront, back: SuperlativeBack },
+  { name: 'Never Have I Ever', front: NeverHaveIEverFront, back: NeverHaveIEverBack },
+  { name: 'Do or Drink', front: DoOrDrinkFront, back: DoOrDrinkBack },
+];
+
 const Home = () => {
   const navigate = useNavigate();
 
@@ -20,7 +27,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // Automatically show the form list with a zoom effect
     const formList = document.getElementById('formList');
     formList.classList.add('show');
   }, []);
@@ -30,30 +36,14 @@ const Home = () => {
       <div id="formList" className="hidden">
         <fieldset id="list">
           <legend>Game Night</legend>
-          <div className="item" onClick={() => handleGameSelect('Truth or Dare')}>
-            <div className="avatar">
-              <img src={TruthOrDareFront} className="front" alt="Truth or Dare Front" />
-              <img src={TruthOrDareBack} className="back" alt="Truth or Dare Back" />
+          {games.map((game) => (
+            <div key={game.name} className="item" onClick={() => handleGameSelect(game.name)} role="button" tabIndex="0" aria-label={`Select ${game.name}`}>
+              <div className="avatar">
+                <img src={game.front} className="front" alt={`${game.name} Front`} />
+                <img src={game.back} className="back" alt={`${game.name} Back`} />
+              </div>
             </div>
-          </div>
-          <div className="item" onClick={() => handleGameSelect('Superlative')}>
-            <div className="avatar">
-              <img src={SuperlativeFront} className="front" alt="The Superlative Front" />
-              <img src={SuperlativeBack} className="back" alt="The Superlative Back" />
-            </div>
-          </div>
-          <div className="item" onClick={() => handleGameSelect('Never Have I Ever')}>
-            <div className="avatar">
-              <img src={NeverHaveIEverFront} className="front" alt="Never Have I Ever Front" />
-              <img src={NeverHaveIEverBack} className="back" alt="Never Have I Ever Back" />
-            </div>
-          </div>
-          <div className="item" onClick={() => handleGameSelect('Do or Drink')}>
-            <div className="avatar">
-              <img src={DoOrDrinkFront} className="front" alt="Do or Drink Front" />
-              <img src={DoOrDrinkBack} className="back" alt="Do or Drink Back" />
-            </div>
-          </div>
+          ))}
         </fieldset>
       </div>
     </div>
