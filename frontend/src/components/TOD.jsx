@@ -32,7 +32,6 @@ const DELETE_LOBBY = gql`
   }
 `;
 
-
 const TODHome = () => {
   const location = useLocation();
   const [isCreateLobbyOpen, setCreateLobbyOpen] = useState(false);
@@ -54,20 +53,18 @@ const TODHome = () => {
     onError: (err) => console.error(err)
   });
 
-
   const handleCreateNew = () => {
     setCreateLobbyOpen(true);
     setEditLobbyData(null); // Reset edit data when creating a new lobby
   };
 
   const handleEditLobby = (lobby) => {
-  setEditLobbyData({
-    ...lobby,
-    id: parseInt(lobby.id, 10) // Ensure id is a number
-  });
-  setCreateLobbyOpen(true);
-};
-
+    setEditLobbyData({
+      ...lobby,
+      id: parseInt(lobby.id, 10) // Ensure id is a number
+    });
+    setCreateLobbyOpen(true);
+  };
 
   const closeCreateLobby = () => {
     setCreateLobbyOpen(false);
@@ -160,7 +157,8 @@ const TODHome = () => {
         onClose={closeCreateLobby}
         onLobbyCreated={handleLobbyCreated}
         selectedGame={selectedGame}
-        lobbyData={editLobbyData}
+        lobbyData={editLobbyData} // Pass the edit data to the modal
+        refetchLobbies={refetch} // Pass refetch function to the modal
       />
       {selectedLobbyId && (
         <LobbyDetails

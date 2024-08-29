@@ -30,7 +30,7 @@ const EDIT_LOBBY = gql`
 const levels = ["Mild", "Moderate", "Wild"];
 const categories = ["Party", "Couples", "Teens", "Work"];
 
-const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData }) => {
+const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData, refetchLobbies }) => {
   const [name, setName] = useState('');
   const [level, setLevel] = useState('');
   const [category, setCategory] = useState('');
@@ -73,6 +73,7 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData 
         onLobbyCreated(lobbyId);
       }
       onClose();
+      refetchLobbies(); // Call refetch function to update the lobby list
     } catch (error) {
       console.error('Error saving lobby:', error);
     }
@@ -120,11 +121,12 @@ CreateLobby.propTypes = {
   onLobbyCreated: PropTypes.func.isRequired,
   selectedGame: PropTypes.string.isRequired,
   lobbyData: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.number, // Ensure id is a number
     name: PropTypes.string,
     level: PropTypes.string,
     category: PropTypes.string
-  })
+  }),
+  refetchLobbies: PropTypes.func.isRequired // Add prop type for refetch function
 };
 
 export default CreateLobby;
