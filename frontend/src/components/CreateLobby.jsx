@@ -55,6 +55,7 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
 
   const handleSave = async () => {
     try {
+      let lobbyId;
       if (isEditMode) {
         await editLobby({
           variables: { 
@@ -64,16 +65,17 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
             newLevel: level 
           }
         });
+        lobbyId = parseInt(lobbyData.id, 10);
       } else {
         const { data } = await createLobby({
           variables: { name, level, category, game: selectedGame }
         });
         console.log('Lobby created:', data.createLobby);
-        const lobbyId = data.createLobby.id;
-        onLobbyCreated(lobbyId);
+        lobbyId = data.createLobby.id;
       }
       onClose();
       refetchLobbies(); // Call refetch function to update the lobby list
+      onLobbyCreated(lobbyId); // Open lobby details modal after saving
     } catch (error) {
       console.error('Error saving lobby:', error);
     }
