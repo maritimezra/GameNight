@@ -195,6 +195,21 @@ class Mutation:
             return f"Lobby with ID {lobby_id} does not exist."
 
     @strawberry.mutation
+    def edit_lobby(
+        self,
+        lobby_id: int,
+        new_name: Optional[str],
+        new_category: Optional[str],
+        new_level: Optional[str],
+    ) -> str:
+        lobby = Lobby.objects.get(id=lobby_id)
+        lobby.name = new_name
+        lobby.category = new_category
+        lobby.level = new_level
+        lobby.save()
+        return lobby
+
+    @strawberry.mutation
     def add_player(self, lobby_id: int, player_name: str) -> PlayerType:
         lobby = Lobby.objects.get(id=lobby_id)
         player = Player.objects.create(name=player_name)
