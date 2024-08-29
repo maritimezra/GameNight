@@ -194,6 +194,8 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
 
   if (!isOpen) return null;
 
+  const requiresPlayers = lobby.game !== 'Superlative' && lobby.game !== 'Never Have I Ever';
+
   return (
     isOpen && (
       <div className="modal">
@@ -205,66 +207,69 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
           <h3>{lobby.game}</h3>
           <p>Category: {lobby.category}</p>
           <p>Level: {lobby.level}</p>
-          <h3>Players</h3>
-          <ul className="player-list">
-            {players.map(player => (
-              <li key={player.id} className="player-item">
-                <span className="player-name">{player.name}</span>
-                {player.id !== 'creator' && (
-                  <div className="player-icons">
-                    <span
-                      className="icon"
-                      onClick={() => {
-                        setEditingPlayerId(player.id);
-                        setNewPlayerName(player.name);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </span>
-                    <span
-                      className="icon"
-                      onClick={() => {
-                        setActionPlayerId(player.id);
-                        handleRemovePlayer();
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </span>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
+          {requiresPlayers && (
+            <>
+              <h3>Players</h3>
+              <ul className="player-list">
+                {players.map(player => (
+                  <li key={player.id} className="player-item">
+                    <span className="player-name">{player.name}</span>
+                    {player.id !== 'creator' && (
+                      <div className="player-icons">
+                        <span
+                          className="icon"
+                          onClick={() => {
+                            setEditingPlayerId(player.id);
+                            setNewPlayerName(player.name);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                        </span>
+                        <span
+                          className="icon"
+                          onClick={() => {
+                            setActionPlayerId(player.id);
+                            handleRemovePlayer();
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </span>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
   
-          {editingPlayerId && (
-            <div className="edit-player"style={{ display: 'flex', alignItems: 'center'}}>
-              <input
-                type="text"
-                className="edit-input"
-                value={newPlayerName}
-                onChange={e => setNewPlayerName(e.target.value)}
-              />
-              <span className="icon" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></span>
-              <span className="icon" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></span>
-            </div>
+              {editingPlayerId && (
+                <div className="edit-player" style={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    className="edit-input"
+                    value={newPlayerName}
+                    onChange={e => setNewPlayerName(e.target.value)}
+                  />
+                  <span className="icon" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></span>
+                  <span className="icon" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></span>
+                </div>
+              )}
+  
+              {isAddingPlayer ? (
+                <div className="add-player" style={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    placeholder="New player name"
+                    value={newPlayerToAdd}
+                    onChange={(e) => setNewPlayerToAdd(e.target.value)}
+                  />
+                  <span className="icon" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></span>
+                  <span className="icon" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></span>
+                </div>
+              ) : (
+                <button onClick={() => setIsAddingPlayer(true)}>Add Player</button>
+              )}
+            </>
           )}
-  
-          {isAddingPlayer ? (
-            <div className="add-player" style={{ display: 'flex', alignItems: 'center' }}>
-              <input
-                type="text"
-                placeholder="New player name"
-                value={newPlayerToAdd}
-                onChange={(e) => setNewPlayerToAdd(e.target.value)}
-              />
-              <span className="icon" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></span>
-              <span className="icon" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></span>
-            </div>
-          ) : (
-            <button onClick={() => setIsAddingPlayer(true)}>Add Player(s)</button>
-          )}
-  
-          <button className="start-game-button" onClick={handleStartGame}>Start Game</button>
+          <button onClick={handleStartGame}>Start Game</button>
         </div>
       </div>
     )
@@ -274,7 +279,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
 LobbyDetails.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  lobbyId: PropTypes.number.isRequired,
+  lobbyId: PropTypes.string.isRequired,
 };
 
 export default LobbyDetails;
