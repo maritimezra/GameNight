@@ -144,7 +144,7 @@ const NHIEHome = () => {
         <LobbyDetails
           isOpen={isLobbyDetailsOpen}
           onClose={closeLobbyDetails}
-          lobbyId={selectedLobbyId ? parseInt(selectedLobbyId) : null}
+          lobbyId={selectedLobbyId ? selectedLobbyId.toString() : null}
         />
       )}
     </div>
