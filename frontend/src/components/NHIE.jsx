@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 import CreateLobby from './CreateLobby';
 import LobbyDetails from './LobbyDetails';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/GameHome.css'
 
 const GET_LOBBIES = gql`
@@ -24,9 +26,13 @@ const GET_USERNAME = gql`
   }
 `;
 
+const DELETE_LOBBY = gql`
+  mutation DeleteLobby($lobbyId: Int!) {
+    deleteLobby(lobbyId: $lobbyId)
+  }
+`;
+
 const NHIEHome = () => {
-
-
   const location = useLocation();
   const [isCreateLobbyOpen, setCreateLobbyOpen] = useState(false);
   const [isLobbyDetailsOpen, setLobbyDetailsOpen] = useState(false);
@@ -38,6 +44,11 @@ const NHIEHome = () => {
   });
   const { loading, error, data, refetch } = useQuery(GET_LOBBIES, {
     fetchPolicy: 'network-only'
+  });
+
+  const [deleteLobby] = useMutation(DELETE_LOBBY, {
+    onCompleted: () => refetch(),
+    onError: (err) => console.error(err)
   });
 
   const handleCreateNew = () => {
@@ -61,6 +72,12 @@ const NHIEHome = () => {
   const handleLobbyCreated = (lobbyId) => {
     setSelectedLobbyId(lobbyId);
     setLobbyDetailsOpen(true);
+  };
+
+  const handleDeleteLobby = (lobbyId) => {
+    const id = parseInt(lobbyId, 10);  
+    deleteLobby({ variables: { lobbyId: id } })
+      .catch((error) => console.error("Deletion error:", error));
   };
 
   useEffect(() => {
@@ -102,9 +119,14 @@ const NHIEHome = () => {
         <div className="lobbylist">
         <ul>
           {lobbies.map((lobby) => (
-            <ul key={lobby.id} onClick={() => handleLobbyClick(lobby.id)} style={{ cursor: 'pointer' }}>
-              <h3>{lobby.name}</h3>
-            </ul>
+            <ul key={lobby.id} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span onClick={() => handleLobbyClick(lobby.id)}>{lobby.name}</span>
+            <FontAwesomeIcon
+              icon={faTrash}
+              onClick={() => handleDeleteLobby(lobby.id)}
+              style={{ cursor: 'pointer', color: 'red' }}
+            />
+          </ul>
           ))}
         </ul>
         </div>
