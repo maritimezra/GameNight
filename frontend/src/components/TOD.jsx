@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import CreateLobby from './CreateLobby';
 import LobbyDetails from './LobbyDetails';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import '../styles/GameHome.css';
 
 const GET_LOBBIES = gql`
@@ -32,12 +32,14 @@ const DELETE_LOBBY = gql`
   }
 `;
 
+
 const TODHome = () => {
   const location = useLocation();
   const [isCreateLobbyOpen, setCreateLobbyOpen] = useState(false);
   const [isLobbyDetailsOpen, setLobbyDetailsOpen] = useState(false);
   const [selectedLobbyId, setSelectedLobbyId] = useState(null);
   const [selectedGame, setSelectedGame] = useState('');
+  const [editLobbyData, setEditLobbyData] = useState(null);
 
   const { loading: usernameLoading, error: usernameError, data: usernameData } = useQuery(GET_USERNAME, {
     fetchPolicy: 'network-only'
@@ -52,12 +54,24 @@ const TODHome = () => {
     onError: (err) => console.error(err)
   });
 
+
   const handleCreateNew = () => {
     setCreateLobbyOpen(true);
+    setEditLobbyData(null); // Reset edit data when creating a new lobby
   };
+
+  const handleEditLobby = (lobby) => {
+  setEditLobbyData({
+    ...lobby,
+    id: parseInt(lobby.id, 10) // Ensure id is a number
+  });
+  setCreateLobbyOpen(true);
+};
+
 
   const closeCreateLobby = () => {
     setCreateLobbyOpen(false);
+    setEditLobbyData(null);
   };
 
   const handleLobbyClick = (lobbyId) => {
@@ -76,7 +90,7 @@ const TODHome = () => {
   };
 
   const handleDeleteLobby = (lobbyId) => {
-    const id = parseInt(lobbyId, 10);  
+    const id = parseInt(lobbyId, 10);
     deleteLobby({ variables: { lobbyId: id } })
       .catch((error) => console.error("Deletion error:", error));
   };
@@ -121,11 +135,18 @@ const TODHome = () => {
             {lobbies.map((lobby) => (
               <ul key={lobby.id} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span onClick={() => handleLobbyClick(lobby.id)}>{lobby.name}</span>
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  onClick={() => handleDeleteLobby(lobby.id)}
-                  style={{ cursor: 'pointer', color: 'red' }}
-                />
+                <div>
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    onClick={() => handleEditLobby(lobby)}
+                    style={{ cursor: 'pointer', color: 'blue', marginRight: '10px' }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    onClick={() => handleDeleteLobby(lobby.id)}
+                    style={{ cursor: 'pointer', color: 'red' }}
+                  />
+                </div>
               </ul>
             ))}
           </ul>
@@ -139,6 +160,7 @@ const TODHome = () => {
         onClose={closeCreateLobby}
         onLobbyCreated={handleLobbyCreated}
         selectedGame={selectedGame}
+        lobbyData={editLobbyData}
       />
       {selectedLobbyId && (
         <LobbyDetails
