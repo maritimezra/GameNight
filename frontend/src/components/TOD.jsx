@@ -55,13 +55,13 @@ const TODHome = () => {
 
   const handleCreateNew = () => {
     setCreateLobbyOpen(true);
-    setEditLobbyData(null); // Reset edit data when creating a new lobby
+    setEditLobbyData(null);
   };
 
   const handleEditLobby = (lobby) => {
     setEditLobbyData({
       ...lobby,
-      id: parseInt(lobby.id, 10) // Ensure id is a number
+      id: parseInt(lobby.id, 10)
     });
     setCreateLobbyOpen(true);
   };

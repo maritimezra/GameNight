@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import CreateLobby from './CreateLobby';
 import LobbyDetails from './LobbyDetails';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import '../styles/GameHome.css'
 
 const GET_LOBBIES = gql`
@@ -38,6 +38,7 @@ const SuperlativeHome = () => {
   const [isLobbyDetailsOpen, setLobbyDetailsOpen] = useState(false);
   const [selectedLobbyId, setSelectedLobbyId] = useState(null);
   const [selectedGame, setSelectedGame] = useState('');
+  const [editLobbyData, setEditLobbyData] = useState(null);
 
   const { loading: usernameLoading, error: usernameError, data: usernameData } = useQuery(GET_USERNAME, {
     fetchPolicy: 'network-only'
@@ -52,10 +53,20 @@ const SuperlativeHome = () => {
 
   const handleCreateNew = () => {
     setCreateLobbyOpen(true);
+    setEditLobbyData(null);
+  };
+
+  const handleEditLobby = (lobby) => {
+    setEditLobbyData({
+      ...lobby,
+      id: parseInt(lobby.id, 10)
+    });
+    setCreateLobbyOpen(true);
   };
 
   const closeCreateLobby = () => {
     setCreateLobbyOpen(false);
+    setEditLobbyData(null);
   };
 
   const handleLobbyClick = (lobbyId) => {
@@ -116,18 +127,25 @@ const SuperlativeHome = () => {
       <div className="lobbies">
         <h2>Your Lobbies</h2>
         <div className="lobbylist">
-        <ul>
-          {lobbies.map((lobby) => (
-            <ul key={lobby.id} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span onClick={() => handleLobbyClick(lobby.id)}>{lobby.name}</span>
-            <FontAwesomeIcon
-              icon={faTrash}
-              onClick={() => handleDeleteLobby(lobby.id)}
-              style={{ cursor: 'pointer', color: 'red' }}
-            />
+          <ul>
+            {lobbies.map((lobby) => (
+              <ul key={lobby.id} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span onClick={() => handleLobbyClick(lobby.id)}>{lobby.name}</span>
+              <div>
+                <FontAwesomeIcon
+                  icon={faEdit}
+                  onClick={() => handleEditLobby(lobby)}
+                  style={{ cursor: 'pointer', color: 'blue', marginRight: '10px' }}
+                />
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  onClick={() => handleDeleteLobby(lobby.id)}
+                  style={{ cursor: 'pointer', color: 'red' }}
+                />   
+              </div>
+            </ul>
+            ))}
           </ul>
-          ))}
-        </ul>
         </div>
         <div className="createnew">
          <button onClick={handleCreateNew}>Create New</button>
@@ -138,6 +156,8 @@ const SuperlativeHome = () => {
         onClose={closeCreateLobby}
         onLobbyCreated={handleLobbyCreated}
         selectedGame={selectedGame}
+        lobbyData={editLobbyData}
+        refetchLobbies={refetch} 
       />
       {selectedLobbyId && (
         <LobbyDetails
