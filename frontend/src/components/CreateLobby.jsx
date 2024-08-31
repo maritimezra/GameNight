@@ -35,10 +35,10 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
   const [level, setLevel] = useState('');
   const [category, setCategory] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
+
   const [createLobby] = useMutation(CREATE_LOBBY);
   const [editLobby] = useMutation(EDIT_LOBBY);
 
-  // Initialize fields if editing
   useEffect(() => {
     if (lobbyData) {
       setName(lobbyData.name);
@@ -55,29 +55,29 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
 
   const handleSave = async () => {
     try {
+      const variables = { name, level, category, game: selectedGame };
       let lobbyId;
+
       if (isEditMode) {
         await editLobby({
-          variables: { 
-            lobbyId: parseInt(lobbyData.id, 10), // Ensure id is an integer
-            newName: name, 
-            newCategory: category, 
-            newLevel: level 
+          variables: {
+            lobbyId: parseInt(lobbyData.id, 10),
+            newName: name,
+            newCategory: category,
+            newLevel: level
           }
         });
         lobbyId = parseInt(lobbyData.id, 10);
       } else {
-        const { data } = await createLobby({
-          variables: { name, level, category, game: selectedGame }
-        });
-        console.log('Lobby created:', data.createLobby);
+        const { data } = await createLobby({ variables });
         lobbyId = data.createLobby.id;
       }
+
       onClose();
-      refetchLobbies(); // Call refetch function to update the lobby list
-      onLobbyCreated(lobbyId); // Open lobby details modal after saving
+      refetchLobbies();
+      onLobbyCreated(lobbyId);
     } catch (error) {
-      console.error('Error saving lobby:', error);
+      console.error('Error saving lobby:', error.message);
     }
   };
 
@@ -86,9 +86,7 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
+        <span className="close" onClick={onClose}>&times;</span>
         <h2>{isEditMode ? 'Edit Lobby' : 'Create Lobby'}</h2>
         <h3>{selectedGame}</h3>
         <input
@@ -99,14 +97,14 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
         />
         <select value={level} onChange={(e) => setLevel(e.target.value)}>
           <option value="">Select Level</option>
-          {levels.map((level, index) => (
-            <option key={index} value={level}>{level}</option>
+          {levels.map((lvl, index) => (
+            <option key={index} value={lvl}>{lvl}</option>
           ))}
         </select>
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Select Category</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>{category}</option>
+          {categories.map((cat, index) => (
+            <option key={index} value={cat}>{cat}</option>
           ))}
         </select>
         <button onClick={handleSave}>
@@ -123,12 +121,12 @@ CreateLobby.propTypes = {
   onLobbyCreated: PropTypes.func.isRequired,
   selectedGame: PropTypes.string.isRequired,
   lobbyData: PropTypes.shape({
-    id: PropTypes.number, // Ensure id is a number
+    id: PropTypes.number,
     name: PropTypes.string,
     level: PropTypes.string,
     category: PropTypes.string
   }),
-  refetchLobbies: PropTypes.func.isRequired // Add prop type for refetch function
+  refetchLobbies: PropTypes.func.isRequired
 };
 
 export default CreateLobby;

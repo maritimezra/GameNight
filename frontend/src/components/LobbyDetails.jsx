@@ -69,6 +69,13 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   const navigate = useNavigate();
   const client = useApolloClient();
 
+  const [players, setPlayers] = useState([]);
+  const [editingPlayerId, setEditingPlayerId] = useState(null);
+  const [newPlayerName, setNewPlayerName] = useState('');
+  const [newPlayerToAdd, setNewPlayerToAdd] = useState('');
+  const [isAddingPlayer, setIsAddingPlayer] = useState(false);
+  const [actionPlayerId, setActionPlayerId] = useState(null);
+
   const { loading: loadingLobby, error: errorLobby, data: dataLobby } = useQuery(GET_LOBBY, {
     variables: { lobbyId: parseInt(lobbyId, 10) },
   });
@@ -80,13 +87,6 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   const { loading: loadingCreator, error: errorCreator, data: dataCreator } = useQuery(GET_CREATOR, {
     variables: { lobbyId: parseInt(lobbyId, 10) },
   });
-
-  const [players, setPlayers] = useState([]);
-  const [editingPlayerId, setEditingPlayerId] = useState(null);
-  const [newPlayerName, setNewPlayerName] = useState('');
-  const [newPlayerToAdd, setNewPlayerToAdd] = useState('');
-  const [isAddingPlayer, setIsAddingPlayer] = useState(false);
-  const [actionPlayerId, setActionPlayerId] = useState(null);
 
   const [editPlayer] = useMutation(EDIT_PLAYER, {
     refetchQueries: [{ query: GET_PLAYERS, variables: { lobbyId: parseInt(lobbyId, 10) } }],
@@ -111,78 +111,68 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
     }
   }, [dataPlayers, dataCreator]);
 
-  const handleEditPlayer = () => {
-    if (!editingPlayerId || !newPlayerName.trim()) return;
+  const handlePlayerAction = async (action, variables) => {
+    try {
+      await action({ variables });
+    } catch (error) {
+      console.error(`Error during player action: ${error.message}`);
+    }
+  };
 
-    editPlayer({
-      variables: { playerId: parseInt(editingPlayerId, 10), newName: newPlayerName },
-    }).then(() => {
+  const handleEditPlayer = () => {
+    if (editingPlayerId && newPlayerName.trim()) {
+      handlePlayerAction(editPlayer, { playerId: parseInt(editingPlayerId, 10), newName: newPlayerName });
       setEditingPlayerId(null);
       setNewPlayerName('');
-    });
+    }
   };
 
   const handleRemovePlayer = async () => {
-    if (!actionPlayerId) return;
-
-    try {
-      const { data } = await client.query({
-        query: GET_LOBBYID,
-        variables: { playerId: parseInt(actionPlayerId, 10) },
-      });
-
-      if (data.getLobbyid === parseInt(lobbyId, 10)) {
-        removePlayer({
-          variables: { lobbyId: parseInt(lobbyId, 10), playerId: parseInt(actionPlayerId, 10) },
-        }).then(() => {
-          setActionPlayerId(null);
+    if (actionPlayerId) {
+      try {
+        const { data } = await client.query({
+          query: GET_LOBBYID,
+          variables: { playerId: parseInt(actionPlayerId, 10) },
         });
-      } else {
-        alert('Player does not belong to this lobby.');
+
+        if (data.getLobbyid === parseInt(lobbyId, 10)) {
+          await handlePlayerAction(removePlayer, { lobbyId: parseInt(lobbyId, 10), playerId: parseInt(actionPlayerId, 10) });
+          setActionPlayerId(null);
+        } else {
+          alert('Player does not belong to this lobby.');
+        }
+      } catch (error) {
+        console.error('Error removing player:', error);
       }
-    } catch (error) {
-      console.error('Error removing player:', error);
     }
   };
 
   const handleAddPlayer = () => {
-    if (!newPlayerToAdd.trim()) return;
-
-    addPlayer({
-      variables: { lobbyId: parseInt(lobbyId, 10), playerName: newPlayerToAdd },
-    }).then(() => {
+    if (newPlayerToAdd.trim()) {
+      handlePlayerAction(addPlayer, { lobbyId: parseInt(lobbyId, 10), playerName: newPlayerToAdd });
       setNewPlayerToAdd('');
       setIsAddingPlayer(false);
-    });
+    }
   };
 
-  const handleStartGame = async () => {
-    if (!dataLobby || !dataLobby.getLobby) {
-      console.error('Lobby data is not available');
-      return;
-    }
-    const lobby = dataLobby.getLobby;
+  const handleStartGame = () => {
+    if (dataLobby?.getLobby) {
+      const routes = {
+        'Truth or Dare': `/play-tod?id=${lobbyId}`,
+        'Superlative': `/play-superlative?id=${lobbyId}`,
+        'Do or Drink': `/play-dod?id=${lobbyId}`,
+        'Never Have I Ever': `/play-nhie?id=${lobbyId}`,
+      };
 
-    let route;
-    switch (lobby.game) {
-      case 'Truth or Dare':
-        route = `/play-tod?id=${lobbyId}`;
-        break;
-      case 'Superlative':
-        route = `/play-superlative?id=${lobbyId}`;
-        break;
-      case 'Do or Drink':
-        route = `/play-dod?id=${lobbyId}`;
-        break;
-      case 'Never Have I Ever':
-        route = `/play-nhie?id=${lobbyId}`;
-        break;
-      default:
+      const route = routes[dataLobby.getLobby.game];
+      if (route) {
+        navigate(route);
+      } else {
         console.error('Unknown game type');
-        return;
+      }
+    } else {
+      console.error('Lobby data is not available');
     }
-
-    navigate(route);
   };
 
   if (loadingLobby || loadingPlayers || loadingCreator) return <p>Loading...</p>;
@@ -190,89 +180,84 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   if (errorPlayers) return <p>Error: {errorPlayers.message}</p>;
   if (errorCreator) return <p>Error: {errorCreator.message}</p>;
 
-  const lobby = dataLobby.getLobby;
-
   if (!isOpen) return null;
 
-  const requiresPlayers = lobby.game !== 'Superlative' && lobby.game !== 'Never Have I Ever';
+  const lobby = dataLobby.getLobby;
+  const requiresPlayers = !['Superlative', 'Never Have I Ever'].includes(lobby.game);
 
   return (
-    isOpen && (
-      <div className="modal">
-        <div className="modal-content">
-          <span className="close" onClick={onClose}>
-            &times;
-          </span>
-          <h2>{lobby.name}</h2>
-          <h3>{lobby.game}</h3>
-          <p>Category: {lobby.category}</p>
-          <p>Level: {lobby.level}</p>
-          {requiresPlayers && (
-            <>
-              <h3>Players</h3>
-              <ul className="player-list">
-                {players.map(player => (
-                  <li key={player.id} className="player-item">
-                    <span className="player-name">{player.name}</span>
-                    {player.id !== 'creator' && (
-                      <div className="player-icons">
-                        <span
-                          className="icon"
-                          onClick={() => {
-                            setEditingPlayerId(player.id);
-                            setNewPlayerName(player.name);
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </span>
-                        <span
-                          className="icon"
-                          onClick={() => {
-                            setActionPlayerId(player.id);
-                            handleRemovePlayer();
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </span>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-  
-              {editingPlayerId && (
-                <div className="edit-player" style={{ display: 'flex', alignItems: 'center' }}>
-                  <input
-                    type="text"
-                    className="edit-input"
-                    value={newPlayerName}
-                    onChange={e => setNewPlayerName(e.target.value)}
-                  />
-                  <span className="icon" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></span>
-                  <span className="icon" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></span>
-                </div>
-              )}
-  
-              {isAddingPlayer ? (
-                <div className="add-player" style={{ display: 'flex', alignItems: 'center' }}>
-                  <input
-                    type="text"
-                    placeholder="New player name"
-                    value={newPlayerToAdd}
-                    onChange={(e) => setNewPlayerToAdd(e.target.value)}
-                  />
-                  <span className="icon" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></span>
-                  <span className="icon" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></span>
-                </div>
-              ) : (
-                <button onClick={() => setIsAddingPlayer(true)}>Add Player</button>
-              )}
-            </>
-          )}
-          <button onClick={handleStartGame}>Start Game</button>
-        </div>
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>&times;</span>
+        <h2>{lobby.name}</h2>
+        <h3>{lobby.game}</h3>
+        <p>Category: {lobby.category}</p>
+        <p>Level: {lobby.level}</p>
+        {requiresPlayers && (
+          <>
+            <h3>Players</h3>
+            <ul className="player-list">
+              {players.map(player => (
+                <li key={player.id} className="player-item">
+                  <span className="player-name">{player.name}</span>
+                  {player.id !== 'creator' && (
+                    <div className="player-icons">
+                      <span
+                        className="icon"
+                        onClick={() => {
+                          setEditingPlayerId(player.id);
+                          setNewPlayerName(player.name);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </span>
+                      <span
+                        className="icon"
+                        onClick={() => {
+                          setActionPlayerId(player.id);
+                          handleRemovePlayer();
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </span>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            {editingPlayerId && (
+              <div className="edit-player" style={{ display: 'flex', alignItems: 'center' }}>
+                <input
+                  type="text"
+                  className="edit-input"
+                  value={newPlayerName}
+                  onChange={e => setNewPlayerName(e.target.value)}
+                />
+                <span className="icon" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></span>
+                <span className="icon" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></span>
+              </div>
+            )}
+
+            {isAddingPlayer ? (
+              <div className="add-player" style={{ display: 'flex', alignItems: 'center' }}>
+                <input
+                  type="text"
+                  placeholder="New player name"
+                  value={newPlayerToAdd}
+                  onChange={e => setNewPlayerToAdd(e.target.value)}
+                />
+                <span className="icon" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></span>
+                <span className="icon" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></span>
+              </div>
+            ) : (
+              <button onClick={() => setIsAddingPlayer(true)}>Add Player</button>
+            )}
+          </>
+        )}
+        <button onClick={handleStartGame}>Start Game</button>
       </div>
-    )
+    </div>
   );
 };
 
