@@ -12,14 +12,53 @@
 }
 
 .modal-content {
-  background-color: #fefefe;
-  padding: 20px; 
+  background: linear-gradient(109.6deg, rgb(218, 185, 252) 11.2%, rgb(125, 89, 252) 91.1%);
+  padding: 40px; 
   border-radius: 12px;
   max-width: 450px; 
   width: 100%;
-  position: relative;
+  position:inherit;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   animation: slide-down 0.3s ease-out;
+  font-family: 'Lato', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* input[type="text"], select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+} */
+
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="password"],
+.modal-content select {
+  /* width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px; */
+
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  margin: 0 auto 20px;
+}
+
+.modal-content h2{
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .profile-modal {
@@ -56,18 +95,18 @@
 }
 
 .close:hover {
-  color: #333;
+  color: #9900ad;
 }
 
 .player-list {
   max-height: 200px;
   list-style-type: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 1px 0;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
-  overflow-y: auto;
+  background-color: #f5222200;
+  overflow-y: 0px;
 }
 
 .player-item {
@@ -89,8 +128,9 @@
 
 .player-name {
   flex-grow: 1;
-  color: #333;
-  font-weight: 500;
+  color: #7D59FCE8;
+  font-weight: 700;
+  
 }
 
 .player-icons {
@@ -101,11 +141,11 @@
 .icon {
   cursor: pointer;
   margin: 0 5px;
-  color: #333;
+  color: #c008b7;
 }
 
 .icon:hover {
-  color: #007bff;
+  color: #db5fd5;
 }
 
 .edit-player,
@@ -140,7 +180,7 @@
 }
 
 .add-button {
-  background-color: #007bff;
+  background-color: #7D59FCE8;
   color: #fff;
 }
 
@@ -152,7 +192,7 @@
 }
 
 .modal-content button {
-  background-color: #007bff;
+  background-color: #7D59FCE8;
   color: #fff;
   width: 100%;
   margin-top: 10px;
@@ -178,14 +218,4 @@ button:hover {
   opacity: 0.9;
 }
 
-.modal-content input[type="text"],
-.modal-content input[type="email"],
-.modal-content input[type="password"],
-.modal-content select {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-}
+
