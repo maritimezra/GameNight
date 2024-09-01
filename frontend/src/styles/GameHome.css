@@ -14,19 +14,17 @@ html, body {
   
   .username {
     padding-top: 50px;
-    margin-bottom: 20px;
-    font-size: 1 rem;
-    font-family: 'Satisfy', cursive;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-family: 'Brush Script MT', Cursive;
     color: #ffffff;
     z-index: 1;
   }
 
-  
-  
   .lobbies {
     width: 100%;
     max-width: 400px;
-    background: linear-gradient(50deg, rgb(218, 185, 252) 11.2%, rgb(125, 89, 252) 91.1%);
+    background: linear-gradient( rgb(218, 185, 252) 11.2%, rgb(147, 122, 236) 91.1%);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -40,11 +38,32 @@ html, body {
     font-size: 1.5rem;
     color: #333;
     font-family: 'Lato', sans-serif;
-    font-weight: 500; /* Use a lighter weight for a thinner appearance */
-    border-bottom: 1px solid #680381; /* Thin underline using border */
-    padding-bottom: 5px; /* Adjust padding as needed */
+    font-weight: 500; 
+    border-bottom: 1px solid #680381;
+    padding-bottom: 5px;
     margin-top: 1px;
     
+  }
+  .lobby-name{
+    color: #220303;
+    margin-left: 50px;
+    padding: 4px;
+    border-bottom: 1px solid #680381;
+    border-width: 1px;
+    flex-direction: column;
+    display: flex;
+    position: relative;
+  }
+
+  .iconC {
+    cursor: pointer;
+    margin: 0 5px;
+    color: #ffffff;
+  }
+  .iconX {
+    cursor: pointer;
+    margin: 0 5px;
+    color: #ff0000;
   }
   
   ul {
@@ -273,14 +292,6 @@ html, body {
   background-image: url('../images/22.png');
 }
 
-
-
-
-
-
-
-
-/* ... */
 
 @keyframes animate {
   0% {   /* This defines the initial state of the animation.*/

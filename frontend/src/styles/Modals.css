@@ -12,12 +12,12 @@
 }
 
 .modal-content {
-  background: linear-gradient(109.6deg, rgb(218, 185, 252) 11.2%, rgb(125, 89, 252) 91.1%);
+  background: linear-gradient(10deg, rgb(218, 185, 252) 11.2%, rgb(140, 114, 236) 91.1%);
   padding: 40px; 
   border-radius: 12px;
   max-width: 450px; 
   width: 100%;
-  position:inherit;
+  position: relative; /* Change this to relative */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   animation: slide-down 0.3s ease-out;
   font-family: 'Lato', sans-serif;
@@ -26,27 +26,10 @@
   align-items: center;
 }
 
-/* input[type="text"], select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  font-family: 'Lato', sans-serif;
-} */
-
 .modal-content input[type="text"],
 .modal-content input[type="email"],
 .modal-content input[type="password"],
 .modal-content select {
-  /* width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px; */
-
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
@@ -54,20 +37,52 @@
   border-radius: 5px;
   font-size: 16px;
   font-family: 'Lato', sans-serif;
-  margin: 0 auto 20px;
+  margin: 0 auto 10px;
 }
-
+.game-classification{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: max-content;
+  padding: 2px;
+  position: relative;
+  color: #ffffff;
+  gap: 20px;
+}
 .modal-content h2{
   font-family: 'Ubuntu', sans-serif;
+  color: #f0fdfb;
+  font-weight: 100;
+}
+.modal-content h4 {
+  font-family: 'Brush Script MT', Cursive;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 24px;
+  font-weight: 200;
+  color: #c035dc;
+}
+.modal-content h5{
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 4px;
+  color: #17055ce8;
+}
+.profile-details p {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  color: #04021a;
 }
 
 .profile-modal {
   position: absolute;
   top: 50px;
-  right: 45.4px;
+  right: 10%;
   width: 300px;
-  background-color: white;
-  border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -88,29 +103,61 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
-  color: #888;
+  color: #7ad4f0;
   transition: color 0.3s ease;
 }
 
 .close:hover {
-  color: #9900ad;
+  color: #26b2dd;
 }
 
 .player-list {
-  max-height: 200px;
+  max-height: 100px;
+  width: 250px;
   list-style-type: none;
-  padding: 0;
+  padding: 5px;
   margin: 1px 0;
-  border: 1px solid #ddd;
+  border: 1px solid #fffffff8;
   border-radius: 8px;
   background-color: #f5222200;
-  overflow-y: 0px;
+  overflow-y: auto;
+}
+
+/* Scrollbar styling */
+.player-list::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.player-list::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Background of the track */
+  border-radius: 8px; /* Rounded corners */
+}
+
+.player-list::-webkit-scrollbar-thumb {
+  background-color: #7D59FCE8; /* Color of the scroll thumb */
+  border-radius: 8px; /* Rounded corners */
+  border: 3px solid #f0f0f0; /* Padding around the thumb */
+}
+
+.player-list::-webkit-scrollbar-thumb:hover {
+  background-color: #7D59FCE8; /* Color when hovering over the thumb */
+}
+
+/* For Firefox */
+.player-list {
+  scrollbar-width: thin;
+  scrollbar-color: #7D59FCE8 #f0f0f0;
+}
+
+/* For Edge and IE */
+.player-list {
+  -ms-overflow-style: none;  /* Disable default scrollbar */
 }
 
 .player-item {
-  padding: 10px 15px;
+  padding: 5px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -129,7 +176,7 @@
 .player-name {
   flex-grow: 1;
   color: #7D59FCE8;
-  font-weight: 700;
+  font-weight: 500;
   
 }
 
@@ -142,6 +189,26 @@
   cursor: pointer;
   margin: 0 5px;
   color: #c008b7;
+}
+.iconC {
+  cursor: pointer;
+  margin: 0 5px;
+  color: #4c9b03;
+}
+.iconX {
+  cursor: pointer;
+  margin: 0 5px;
+  color: #e60448;
+}
+.iconD {
+  cursor: pointer;
+  margin: 0 5px;
+  color: #4c9b03;
+}
+.iconE {
+  cursor: pointer;
+  margin: 0 5px;
+  color: #f33333;
 }
 
 .icon:hover {
@@ -163,7 +230,7 @@
 .modal-content button {
   padding: 12px 20px; 
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -182,13 +249,20 @@
 .add-button {
   background-color: #7D59FCE8;
   color: #fff;
+  font-weight: 600;
+}
+.create-lobby{
+  background-color: #28a745;
+  color: #fff;
+  margin-bottom: 30px;
+  font-weight: 600; 
 }
 
 .start-game-button {
   background-color: #28a745;
   color: #fff;
-  width: 100%;
-  margin-top: 20px;
+  margin-bottom: 30px;
+  font-weight: 600;
 }
 
 .modal-content button {

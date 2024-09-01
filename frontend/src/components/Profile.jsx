@@ -63,9 +63,11 @@ const Profile = ({ isOpen, onClose, refetch }) => {
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
         <h2>Profile Details</h2>
+        <div className="profile-details">
         <p><strong>Username:</strong> {username}</p>
         <p><strong>Email:</strong> {email}</p>
         <p><strong>Gender:</strong> {genderMapping[gender] || gender}</p>
+        </div>
         <button onClick={handleLogout}>Logout</button>
       </div>
     </div>

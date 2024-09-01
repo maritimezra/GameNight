@@ -190,12 +190,13 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
         <h2>{lobby.name}</h2>
-        <h3>{lobby.game}</h3>
-        <p>Category: {lobby.category}</p>
-        <p>Level: {lobby.level}</p>
+        <div className="game-classification">
+        <p>Category :  {lobby.category}</p>
+        <p>Level :  {lobby.level}</p>
+        </div>
         {requiresPlayers && (
           <>
-            <h3>Players</h3>
+            <h5>Players</h5>
             <ul className="player-list">
               {players.map(player => (
                 <li key={player.id} className="player-item">
@@ -203,7 +204,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                   {player.id !== 'creator' && (
                     <div className="player-icons">
                       <span
-                        className="icon"
+                        className="iconD"
                         onClick={() => {
                           setEditingPlayerId(player.id);
                           setNewPlayerName(player.name);
@@ -212,7 +213,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                         <FontAwesomeIcon icon={faEdit} />
                       </span>
                       <span
-                        className="icon"
+                        className="iconE"
                         onClick={() => {
                           setActionPlayerId(player.id);
                           handleRemovePlayer();
@@ -234,8 +235,8 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                   value={newPlayerName}
                   onChange={e => setNewPlayerName(e.target.value)}
                 />
-                <span className="icon" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></span>
-                <span className="icon" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></span>
+                <span className="iconC" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></span>
+                <span className="iconX" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></span>
               </div>
             )}
 
@@ -247,15 +248,16 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                   value={newPlayerToAdd}
                   onChange={e => setNewPlayerToAdd(e.target.value)}
                 />
-                <span className="icon" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></span>
-                <span className="icon" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></span>
+                <span className="iconC" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></span>
+                <span className="iconX" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></span>
               </div>
             ) : (
-              <button onClick={() => setIsAddingPlayer(true)}>Add Player</button>
+              <button className="add-button" onClick={() => setIsAddingPlayer(true)}>Add Player</button>
             )}
           </>
         )}
-        <button onClick={handleStartGame}>Start Game</button>
+        <button className="start-game-button" onClick={handleStartGame}>Start Game</button>
+        <h4>{lobby.game}</h4>
       </div>
     </div>
   );
