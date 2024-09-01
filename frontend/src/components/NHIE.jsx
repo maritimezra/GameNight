@@ -132,14 +132,14 @@ const NHIEHome = () => {
         <ul>
             {lobbies.map((lobby) => (
               <ul key={lobby.id} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span onClick={() => handleLobbyClick(lobby.id)}>{lobby.name}</span>
+              <span className="lobby-name" onClick={() => handleLobbyClick(lobby.id)}>{lobby.name}</span>
               <div>
-                <FontAwesomeIcon
+                <FontAwesomeIcon className="iconC"
                   icon={faEdit}
                   onClick={() => handleEditLobby(lobby)}
                   style={{ cursor: 'pointer', color: 'blue', marginRight: '10px' }}
                 />
-                <FontAwesomeIcon
+                <FontAwesomeIcon className="iconX"
                   icon={faTrash}
                   onClick={() => handleDeleteLobby(lobby.id)}
                   style={{ cursor: 'pointer', color: 'red' }}
