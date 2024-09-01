@@ -74,7 +74,7 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
   const [newPlayerName, setNewPlayerName] = useState('');
   const [newPlayerToAdd, setNewPlayerToAdd] = useState('');
   const [isAddingPlayer, setIsAddingPlayer] = useState(false);
-  const [actionPlayerId, setActionPlayerId] = useState(null);
+  const [playerToRemoveId, setPlayerToRemoveId] = useState(null);
 
   const { loading: loadingLobby, error: errorLobby, data: dataLobby } = useQuery(GET_LOBBY, {
     variables: { lobbyId: parseInt(lobbyId, 10) },
@@ -111,47 +111,48 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
     }
   }, [dataPlayers, dataCreator]);
 
-  const handlePlayerAction = async (action, variables) => {
-    try {
-      await action({ variables });
-    } catch (error) {
-      console.error(`Error during player action: ${error.message}`);
-    }
-  };
-
-  const handleEditPlayer = () => {
+  const handleEditPlayer = async () => {
     if (editingPlayerId && newPlayerName.trim()) {
-      handlePlayerAction(editPlayer, { playerId: parseInt(editingPlayerId, 10), newName: newPlayerName });
-      setEditingPlayerId(null);
-      setNewPlayerName('');
-    }
-  };
-
-  const handleRemovePlayer = async () => {
-    if (actionPlayerId) {
       try {
-        const { data } = await client.query({
-          query: GET_LOBBYID,
-          variables: { playerId: parseInt(actionPlayerId, 10) },
-        });
-
-        if (data.getLobbyid === parseInt(lobbyId, 10)) {
-          await handlePlayerAction(removePlayer, { lobbyId: parseInt(lobbyId, 10), playerId: parseInt(actionPlayerId, 10) });
-          setActionPlayerId(null);
-        } else {
-          alert('Player does not belong to this lobby.');
-        }
+        await editPlayer({ variables: { playerId: parseInt(editingPlayerId, 10), newName: newPlayerName } });
+        setEditingPlayerId(null);
+        setNewPlayerName('');
       } catch (error) {
-        console.error('Error removing player:', error);
+        console.error(`Error editing player: ${error.message}`);
       }
     }
   };
 
-  const handleAddPlayer = () => {
+  const handleRemovePlayer = async () => {
+    if (playerToRemoveId) {
+        try {
+          const { data } = await client.query({
+            query: GET_LOBBYID,
+            variables: { playerId: parseInt(playerToRemoveId, 10) },
+          });
+
+          if (data.getLobbyid === parseInt(lobbyId, 10)) {
+            await removePlayer({ variables: { lobbyId: parseInt(lobbyId, 10), playerId: parseInt(playerToRemoveId, 10) } });
+            setPlayerToRemoveId(null);
+          } else {
+            alert('Player does not belong to this lobby.');
+          }
+        } catch (error) {
+          console.error('Error removing player:', error);
+        }
+      
+    }
+  };
+
+  const handleAddPlayer = async () => {
     if (newPlayerToAdd.trim()) {
-      handlePlayerAction(addPlayer, { lobbyId: parseInt(lobbyId, 10), playerName: newPlayerToAdd });
-      setNewPlayerToAdd('');
-      setIsAddingPlayer(false);
+      try {
+        await addPlayer({ variables: { lobbyId: parseInt(lobbyId, 10), playerName: newPlayerToAdd } });
+        setNewPlayerToAdd('');
+        setIsAddingPlayer(false);
+      } catch (error) {
+        console.error(`Error adding player: ${error.message}`);
+      }
     }
   };
 
@@ -191,8 +192,8 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
         <span className="close" onClick={onClose}>&times;</span>
         <h2>{lobby.name}</h2>
         <div className="game-classification">
-        <p>Category :  {lobby.category}</p>
-        <p>Level :  {lobby.level}</p>
+          <p>Category: {lobby.category}</p>
+          <p>Level: {lobby.level}</p>
         </div>
         {requiresPlayers && (
           <>
@@ -203,24 +204,22 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                   <span className="player-name">{player.name}</span>
                   {player.id !== 'creator' && (
                     <div className="player-icons">
-                      <span
-                        className="iconD"
+                        <FontAwesomeIcon className="iconD"
+                        icon={faEdit}
                         onClick={() => {
                           setEditingPlayerId(player.id);
                           setNewPlayerName(player.name);
                         }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </span>
-                      <span
-                        className="iconE"
+                        style={{ cursor: 'pointer', marginRight: '10px' }}
+                        />
+                        <FontAwesomeIcon className="iconE"
+                        icon={faTrash} 
                         onClick={() => {
-                          setActionPlayerId(player.id);
+                          setPlayerToRemoveId(player.id);
                           handleRemovePlayer();
                         }}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </span>
+                        style={{ cursor: 'pointer', marginRight: '10px' }}
+                        />
                     </div>
                   )}
                 </li>
@@ -235,8 +234,14 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                   value={newPlayerName}
                   onChange={e => setNewPlayerName(e.target.value)}
                 />
-                <span className="iconC" onClick={handleEditPlayer}><FontAwesomeIcon icon={faCheck} /></span>
-                <span className="iconX" onClick={() => setEditingPlayerId(null)}><FontAwesomeIcon icon={faTimes} /></span>
+                <FontAwesomeIcon className="iconC"
+                icon={faCheck} 
+                onClick={handleEditPlayer}
+                />
+                <FontAwesomeIcon className="iconX"
+                icon={faTimes} 
+                onClick={() => setEditingPlayerId(null)}
+                />
               </div>
             )}
 
@@ -248,8 +253,17 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
                   value={newPlayerToAdd}
                   onChange={e => setNewPlayerToAdd(e.target.value)}
                 />
-                <span className="iconC" onClick={handleAddPlayer}><FontAwesomeIcon icon={faCheck} /></span>
-                <span className="iconX" onClick={() => setIsAddingPlayer(false)}><FontAwesomeIcon icon={faTimes} /></span>
+                <FontAwesomeIcon className="iconC"
+                icon={faCheck} 
+                onClick={handleAddPlayer}
+                style={{ cursor: 'pointer', marginRight: '10px' }}
+                />
+                <FontAwesomeIcon 
+                icon={faTimes} 
+                className="iconX"
+                onClick={() => setIsAddingPlayer(false)}
+                style={{ cursor: 'pointer', marginRight: '10px' }}
+                />
               </div>
             ) : (
               <button className="add-button" onClick={() => setIsAddingPlayer(true)}>Add Player</button>
