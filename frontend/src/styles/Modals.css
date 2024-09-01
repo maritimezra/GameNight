@@ -292,4 +292,14 @@ button:hover {
   opacity: 0.9;
 }
 
+.error-message {
+  color: #ff4d4f; 
+  font-size: 14px; 
+  margin-top: 8px; 
+  margin-bottom: -8px; 
+  padding: 4px 8px; 
+  /* background-color: #ffe6e6; */
+  /* border: 1px solid #ff4d4f;  */
+  border-radius: 4px; 
+}
 

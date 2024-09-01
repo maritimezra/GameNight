@@ -35,6 +35,7 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
   const [level, setLevel] = useState('');
   const [category, setCategory] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [createLobby] = useMutation(CREATE_LOBBY);
   const [editLobby] = useMutation(EDIT_LOBBY);
@@ -54,6 +55,13 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
   }, [lobbyData]);
 
   const handleSave = async () => {
+    setErrorMessage(''); // Reset the error message
+
+    if (!name || !level || !category) {
+      setErrorMessage('All fields are required.');
+      return;
+    }
+
     try {
       const variables = { name, level, category, game: selectedGame };
       let lobbyId;
@@ -107,6 +115,9 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
             <option key={index} value={cat}>{cat}</option>
           ))}
         </select>
+
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
         <button className="create-lobby" onClick={handleSave}>
           {isEditMode ? 'Save Changes' : 'Create Lobby'}
         </button>
