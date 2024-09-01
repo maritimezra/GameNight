@@ -88,7 +88,7 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
         <h2>{isEditMode ? 'Edit Lobby' : 'Create Lobby'}</h2>
-        <h3>{selectedGame}</h3>
+        
         <input
           type="text"
           placeholder="Name"
@@ -107,9 +107,10 @@ const CreateLobby = ({ isOpen, onClose, onLobbyCreated, selectedGame, lobbyData,
             <option key={index} value={cat}>{cat}</option>
           ))}
         </select>
-        <button onClick={handleSave}>
+        <button className="create-lobby" onClick={handleSave}>
           {isEditMode ? 'Save Changes' : 'Create Lobby'}
         </button>
+        <h4>{selectedGame}</h4>
       </div>
     </div>
   );
