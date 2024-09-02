@@ -156,8 +156,8 @@ const TodGame = () => {
           <p>{question}</p>
           </div>
           <div className="group-button">
-          <button className="button" onClick={handleTruth}>&#8592; Truth</button>
-          <button className="button" onClick={handleDare}>Dare &#8594;</button>
+          <button className="truth-button" onClick={handleTruth}> Truth</button>
+          <button className="dare-button" onClick={handleDare}>Dare </button>
           </div>
           </div>
         <div className="top-right-button">

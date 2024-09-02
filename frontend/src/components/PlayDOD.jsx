@@ -155,11 +155,13 @@ const DodGame = () => {
     <div className="main-container">
       <div className="container">
         <h2 className="current-turn">Current Turn: <span className="animate-character">{players[currentTurn]}</span></h2>
-        <div className="question">
+        <div className="dod-question">
+        <div className="dod-text">
           <p>{question}</p>
+          </div>
         </div>
         <div className="top-right-button">
-          <button className="button" onClick={handleNextTurn}>Next Turn</button>
+          <button className="next-turn" onClick={handleNextTurn}>Next Turn</button>
         </div>
         <div className="bottom-right-button">
           <button className="button-end-game" onClick={handleEndGame}>End Game</button>
