@@ -148,11 +148,9 @@ const NHIEGame = () => {
           <p>{question}</p>
         </div>
         </div>
-        <div className="top-right-button">
-          <button className="next-turn" onClick={handleNextQuestion}>Next Question</button>
-        </div>
-        <div className="bottom-right-button">
-          <button className="button-end-game" onClick={handleEndGame}>End Game</button>
+        <div className="NHIE-button">
+          <button className="next-quest-button" onClick={handleNextQuestion}>Next Quest</button>
+          <button className="end-game-button" onClick={handleEndGame}>End Game</button>
         </div>
       </div>
     </div>

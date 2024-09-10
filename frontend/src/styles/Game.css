@@ -25,14 +25,14 @@ html, body {
   background-image: linear-gradient(
     -200deg,
     #06021396 10%,
-    #4e54c8ad 29%,
-    #ffffff 67%,
-    #fff800 100%
+    #ffffff 29%,
+    #06021396 67%,
+    #ffffff 100%
   );
   background-size: auto auto;
   background-clip: border-box;
   background-size: 200% auto;
-  color: #fff;
+  color: #ffffff;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
@@ -100,7 +100,14 @@ html, body {
   width: 45%; /* Adjust width for spacing between buttons */
 }
 
-.truth-button, .dare-button {
+.truth-button{
+  background-color: #22e743;
+}
+.dare-button{
+  background-color: #f7209d;
+}
+
+/* .truth-button, .dare-button {
   background: linear-gradient(36deg, rgb(218, 185, 252) 11.2%, rgb(125, 89, 252) 91.1%);
   color: white;
 }
@@ -109,6 +116,21 @@ html, body {
   background: linear-gradient(109.6deg, rgba(218, 185, 252, 0.726) 11.2%, rgb(125, 89, 252) 91.1%);
   transform: scale(1.05);
 }
+
+
+
+
+
+.next-quest-button, .end-game-button {
+  background: linear-gradient(36deg, rgb(218, 185, 252) 11.2%, rgb(125, 89, 252) 91.1%);
+  color: white;
+}
+
+.next-quest-button, .end-game-button:hover {
+  background: linear-gradient(109.6deg, rgba(218, 185, 252, 0.726) 11.2%, rgb(125, 89, 252) 91.1%);
+  transform: scale(1.05);
+} */
+
 
 .nhie-question {
   font-family: 'Open Sans', sans-serif;
@@ -165,6 +187,25 @@ html, body {
   padding: 10px 10px 10px 20px;
   overflow-y: auto; /* Adds scroll if the text overflows */
 }
+.DOD-button {
+  display: flex;
+  justify-content: space-between;
+  margin: 0; /* Remove margin to avoid extra spacing */
+  padding: 10px 0; /* Adjust padding if needed */
+  position: absolute;
+  bottom: 25%; /* Positions the button group at the bottom */
+  left: 50%;
+  transform: translateX(-50%); /* Centers the buttons horizontally */
+  width: 20%; /* Ensures buttons take up full width */
+  box-sizing: border-box; /* Ensures padding and borders are included in width */
+  font-size: 10px;
+}
+.DOD-button .next-turn{
+  background-color: #22e743;
+}
+.DOD-button .end-game-button{
+  background-color: #e41d2d;
+}
 
 .superlative-question {
   font-size: 2vw;
@@ -196,6 +237,48 @@ html, body {
 .button:hover {
   background-color: #ffffff;
   border-color: #e6e6e6;
+}
+
+.superlative-button {
+  display: flex;
+  justify-content: space-between;
+  margin: 0; /* Remove margin to avoid extra spacing */
+  padding: 10px 0; /* Adjust padding if needed */
+  position: absolute;
+  bottom: 25%; /* Positions the button group at the bottom */
+  left: 50%;
+  transform: translateX(-50%); /* Centers the buttons horizontally */
+  width: 20%; /* Ensures buttons take up full width */
+  box-sizing: border-box; /* Ensures padding and borders are included in width */
+  font-size: 10px;
+}
+
+.NHIE-button {
+  display: flex;
+  justify-content: space-between;
+  margin: 0; /* Remove margin to avoid extra spacing */
+  padding: 10px 0; /* Adjust padding if needed */
+  position: absolute;
+  bottom: 25%; /* Positions the button group at the bottom */
+  left: 50%;
+  transform: translateX(-50%); /* Centers the buttons horizontally */
+  width: 20%; /* Ensures buttons take up full width */
+  box-sizing: border-box; /* Ensures padding and borders are included in width */
+  font-size: 10px;
+}
+
+.NHIE-button .next-quest-button{
+  background-color: #22e743;
+}
+.NHIE-button .end-game-button{
+  background-color: #e41d2d;
+}
+
+.superlative-button .next-quest-button{
+  background-color: #18a730;
+}
+.superlative-button .end-game-button{
+  background-color: #e41d2d;
 }
 
 .next-turn {

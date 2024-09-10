@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .modal-content {
@@ -86,6 +86,23 @@
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+}
+.profile-details .profile-username {
+  color: #faf6f6; /* Dark color for the username */
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.profile-details .profile-email {
+  color: #f3f3f3; /* Email in a blue shade */
+  font-size: 16px;
+  text-decoration: underline; /* Underline to give the look of an email link */
+  font-weight: 00;
+}
+
+.profile-details .profile-gender {
+  color: #ffffff; /* Gray color for gender */
+  font-size: 16px;
 }
 
 @keyframes slide-down {
