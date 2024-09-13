@@ -5,6 +5,8 @@ import CreateLobby from './CreateLobby';
 import LobbyDetails from './LobbyDetails';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import Lottie from 'react-lottie';
+import loaderData from '../animations/Loader.json';
 import '../styles/GameHome.css'
 
 const GET_LOBBIES = gql`
@@ -97,7 +99,23 @@ const SuperlativeHome = () => {
     }
   }, [location.key, refetch, location.state]);
 
-  if (loading || usernameLoading) return <p>Loading...</p>;
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loaderData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
+  if (loading || usernameLoading) {
+    return (
+      <div className="loader">
+        <Lottie options={defaultOptions} height={100} width={100} />
+      </div>
+    );
+  }
+  
   if (error || usernameError) return <p>{error ? error.message : usernameError.message}</p>;
 
   const lobbies = data.getSuperlativeLobbies;

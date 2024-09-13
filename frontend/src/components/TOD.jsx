@@ -5,6 +5,8 @@ import CreateLobby from './CreateLobby';
 import LobbyDetails from './LobbyDetails';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import Lottie from 'react-lottie';
+import loaderData from '../animations/Loader.json';
 import '../styles/GameHome.css';
 
 const GET_LOBBIES = gql`
@@ -41,17 +43,24 @@ const TODHome = () => {
   const [editLobbyData, setEditLobbyData] = useState(null);
 
   const { loading: usernameLoading, error: usernameError, data: usernameData } = useQuery(GET_USERNAME, {
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
   });
 
   const { loading, error, data, refetch } = useQuery(GET_LOBBIES, {
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
   });
 
   const [deleteLobby] = useMutation(DELETE_LOBBY, {
     onCompleted: () => refetch(),
-    onError: (err) => console.error(err)
+    onError: (err) => console.error(err),
   });
+
+  useEffect(() => {
+    refetch();
+    if (location.state && location.state.selectedGame) {
+      setSelectedGame(location.state.selectedGame);
+    }
+  }, [location.key, refetch, location.state]);
 
   const handleCreateNew = () => {
     setCreateLobbyOpen(true);
@@ -92,15 +101,27 @@ const TODHome = () => {
       .catch((error) => console.error("Deletion error:", error));
   };
 
-  useEffect(() => {
-    refetch();
-    if (location.state && location.state.selectedGame) {
-      setSelectedGame(location.state.selectedGame);
-    }
-  }, [location.key, refetch, location.state]);
+  // Lottie loader options
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loaderData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
 
-  if (loading || usernameLoading) return <p>Loading...</p>;
-  if (error || usernameError) return <p>{error ? error.message : usernameError.message}</p>;
+  if (loading || usernameLoading) {
+    return (
+      <div className="loader">
+        <Lottie options={defaultOptions} height={100} width={100} />
+      </div>
+    );
+  }
+
+  if (error || usernameError) {
+    return <p>{error ? error.message : usernameError.message}</p>;
+  }
 
   const lobbies = data.getTodLobbies;
   const username = usernameData?.getUsername?.username;
@@ -152,6 +173,7 @@ const TODHome = () => {
           <button onClick={handleCreateNew}>Create New</button>
         </div>
       </div>
+      
       <CreateLobby
         isOpen={isCreateLobbyOpen}
         onClose={closeCreateLobby}
@@ -160,6 +182,7 @@ const TODHome = () => {
         lobbyData={editLobbyData} // Pass the edit data to the modal
         refetchLobbies={refetch} // Pass refetch function to the modal
       />
+
       {selectedLobbyId && (
         <LobbyDetails
           isOpen={isLobbyDetailsOpen}

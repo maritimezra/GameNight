@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import '../styles/Modals.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import Lottie from 'react-lottie';
+import loaderData from '../animations/Loader.json';
 
 const GET_LOBBY = gql`
   query GetLobby($lobbyId: Int!) {
@@ -176,7 +178,22 @@ const LobbyDetails = ({ isOpen, onClose, lobbyId }) => {
     }
   };
 
-  if (loadingLobby || loadingPlayers || loadingCreator) return <p>Loading...</p>;
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loaderData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
+  if (loadingLobby || loadingPlayers || loadingCreator) { 
+    return (
+      <div className="loader">
+        <Lottie options={defaultOptions} height={100} width={100} />
+      </div>
+    );
+  }
   if (errorLobby) return <p>Error: {errorLobby.message}</p>;
   if (errorPlayers) return <p>Error: {errorPlayers.message}</p>;
   if (errorCreator) return <p>Error: {errorCreator.message}</p>;

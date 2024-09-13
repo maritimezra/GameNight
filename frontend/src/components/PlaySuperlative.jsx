@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
+import Lottie from 'react-lottie';
+import loaderData from '../animations/Loader.json';
 import '../styles/Game.css'
 
 import couplesMildQuestions from '../questions/superlative/couples/mild.json';
@@ -137,7 +139,23 @@ const SuperlativeGame = () => {
     navigate('/')
   }
 
-  if (loadingLobby ) return <p>Loading...</p>;
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loaderData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
+  if (loadingLobby ) {
+      return (
+        <div className="loader">
+          <Lottie options={defaultOptions} height={100} width={100} />
+        </div>
+      );
+    }
+    
   if (errorLobby ) return <p>Error: { errorLobby.message }</p>;
 
   return (

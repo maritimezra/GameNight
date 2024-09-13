@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
+import Lottie from 'react-lottie';
+import loaderData from '../animations/Loader.json';
 import '../styles/Game.css';
 
 import couplesMildQuestions from '../questions/dod/couples/mild.json';
@@ -136,7 +138,22 @@ const DodGame = () => {
     }
   }, [dataLobby]);
 
-  if (loadingLobby || loadingLineup) return <p>Loading...</p>;
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loaderData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
+  if (loadingLobby || loadingLineup) {
+    return (
+      <div className="loader">
+        <Lottie options={defaultOptions} height={100} width={100} />
+      </div>
+    );
+  }
   if (errorLobby || errorLineup) return <p>Error: {errorLobby ? errorLobby.message : errorLineup.message}</p>;
 
   const handleNextTurn = () => {
