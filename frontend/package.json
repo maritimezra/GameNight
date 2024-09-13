@@ -15,9 +15,11 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "graphql": "^16.8.1",
+    "lottie-react": "^2.4.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-lottie": "^1.2.4",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.22.3",
     "reactjs-popup": "^2.0.6"
