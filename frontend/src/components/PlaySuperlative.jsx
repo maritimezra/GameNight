@@ -161,17 +161,15 @@ const SuperlativeGame = () => {
   return (
     <div className="main-container">
       <div className="container">
-        <h2 className="current-turn">Current Question: </h2>
+        <h2 className="current-turn">Current Question </h2>
         <div className="superlative-question">
         <div className="superlative-text">
           <p>{question}</p>
         </div>
         </div>
-        <div className="top-right-button">
-          <button className="next-question" onClick={handleNextQuestion}>Next Question</button>
-        </div>
-        <div className="bottom-right-button">
-          <button className="button-end-game" onClick={handleEndGame}>End Game</button>
+        <div className="superlative-button">
+          <button className="next-quest-button" onClick={handleNextQuestion}>Next Quest</button>
+          <button className="end-game-button" onClick={handleEndGame}>End Game</button>
         </div>
       </div>
     </div>

@@ -168,14 +168,14 @@ const TodGame = () => {
   return (
     <div className="main-container">
       <div className="container">
-        <h2 className="current-turn">Current Turn: <span className="animate-character">{players[currentTurn]}</span></h2>
+        <h2 className="current-turn">Playing... <span className="animate-character">{players[currentTurn]}</span></h2>
         <div className="tod-question">
         <div className="tod-text">
           <p>{question}</p>
           </div>
           <div className="group-button">
-          <button className="button" onClick={handleTruth}>&#8592; Truth</button>
-          <button className="button" onClick={handleDare}>Dare &#8594;</button>
+          <button className="truth-button" onClick={handleTruth}> Truth</button>
+          <button className="dare-button" onClick={handleDare}>Dare </button>
           </div>
           </div>
         <div className="top-right-button">

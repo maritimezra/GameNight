@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Home.css';
 
-import TruthOrDareFront from '../images/Truth_Or_Dare.png';
-import TruthOrDareBack from '../images/Truth_Or_Dare_Back.png';
-import SuperlativeFront from '../images/The_Superlative.png';
-import SuperlativeBack from '../images/The_Superlative_Back.png';
-import NeverHaveIEverFront from '../images/Never_Have_I_Ever.png';
-import NeverHaveIEverBack from '../images/Never_Have_I_Ever_Back.png';
-import DoOrDrinkFront from '../images/Do_Or_Drink.png';
-import DoOrDrinkBack from '../images/Do_Or_Drink_Back.png';
+import TruthOrDareFront from '../images/TOD_Home_Front.png';
+import TruthOrDareBack from '../images/TOD_Home_Back.png';
+import SuperlativeFront from '../images/Superlative_Home_Front.png';
+import SuperlativeBack from '../images/Superlative_Home_Back.png';
+import NeverHaveIEverFront from '../images/NHIE_Home_Front.png';
+import NeverHaveIEverBack from '../images/NHIE_Home_Back.png';
+import DoOrDrinkFront from '../images/DOD_Home_Front.png';
+import DoOrDrinkBack from '../images/DOD_Home_Back.png';
 
 const games = [
   { name: 'Truth or Dare', front: TruthOrDareFront, back: TruthOrDareBack },

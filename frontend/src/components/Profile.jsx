@@ -64,10 +64,11 @@ const Profile = ({ isOpen, onClose, refetch }) => {
         <span className="close" onClick={onClose}>&times;</span>
         <h2>Profile Details</h2>
         <div className="profile-details">
-        <p><strong>Username:</strong> {username}</p>
-        <p><strong>Email:</strong> {email}</p>
-        <p><strong>Gender:</strong> {genderMapping[gender] || gender}</p>
-        </div>
+        <p><strong>Username:</strong> <span className="profile-username">{username}</span></p>
+        <p><strong>Email:</strong> <span className="profile-email">{email}</span></p>
+        <p><strong>Gender:</strong> <span className="profile-gender">{genderMapping[gender] || gender}</span></p>
+      </div>
+
         <button onClick={handleLogout}>Logout</button>
       </div>
     </div>

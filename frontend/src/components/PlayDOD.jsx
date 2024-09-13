@@ -171,15 +171,15 @@ const DodGame = () => {
   return (
     <div className="main-container">
       <div className="container">
-        <h2 className="current-turn">Current Turn: <span className="animate-character">{players[currentTurn]}</span></h2>
-        <div className="question">
+        <h2 className="current-turn">Player: <span className="animate-character">{players[currentTurn]}</span></h2>
+        <div className="dod-question">
+        <div className="dod-text">
           <p>{question}</p>
+          </div>
         </div>
-        <div className="top-right-button">
-          <button className="button" onClick={handleNextTurn}>Next Turn</button>
-        </div>
-        <div className="bottom-right-button">
-          <button className="button-end-game" onClick={handleEndGame}>End Game</button>
+        <div className="DOD-button">
+          <button className="next-turn" onClick={handleNextTurn}>Next Turn</button>
+          <button className="end-game-button" onClick={handleEndGame}>End Game</button>
         </div>
       </div>
     </div>
