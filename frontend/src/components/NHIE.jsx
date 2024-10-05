@@ -20,13 +20,6 @@ const GET_LOBBIES = gql`
   }
 `;
 
-const GET_USERNAME = gql`
-  query GetUsername {
-    getUsername {
-      username
-    }
-  }
-`;
 
 const DELETE_LOBBY = gql`
   mutation DeleteLobby($lobbyId: Int!) {
@@ -42,9 +35,6 @@ const NHIEHome = () => {
   const [selectedGame, setSelectedGame] = useState('');
   const [editLobbyData, setEditLobbyData] = useState(null);
 
-  const { loading: usernameLoading, error: usernameError, data: usernameData } = useQuery(GET_USERNAME, {
-    fetchPolicy: 'network-only'
-  });
   const { loading, error, data, refetch } = useQuery(GET_LOBBIES, {
     fetchPolicy: 'network-only'
   });
@@ -110,7 +100,7 @@ const NHIEHome = () => {
     },
   };
 
-  if (loading || usernameLoading) {
+  if (loading) {
     return (
       <div className="loader">
         <Lottie options={defaultOptions} height={100} width={100} />
@@ -118,10 +108,9 @@ const NHIEHome = () => {
     );
   }
   
-  if (error || usernameError) return <p>{error ? error.message : usernameError.message}</p>;
+  if (error) return <p>{error.message}</p>;
 
   const lobbies = data.getNhieLobbies;
-  const username = usernameData?.getUsername?.username;
 
 
   return (
@@ -142,7 +131,7 @@ const NHIEHome = () => {
       </div>
 
       <div className="username">
-        <h2><span className="scribble-underline">Hi, {username}</span></h2>
+        <h2><span className="scribble-underline">Never Have I Ever</span></h2>
       </div>
       <div className="lobbies">
         <h2>Your Lobbies</h2>
